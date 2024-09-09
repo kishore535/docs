@@ -1,0 +1,173 @@
+i am sai kishore reddy. you can go with kishore . Previousl I am working as DevOps Engineer at TNS
+I have 8+ years of exp in the field of DevOps, specializing in Cloud Computing, Automation, Security, Build and Release Management
+I have worked on  AWS and Azure cloud  for Cloud Implementations, migrations, support and cloud security. services like 
+EC2, EKS, ECS, ELB, IAM, Cloud Trail, EMR,Sagemaker, VPC, SQS, SNS, Lambda, EBS, Elasticache, Elasticsearch etc 
+ci/cd tools like github, gitlab,jenkins,ansible, teraform,docker , kubernetes, 
+sast/sca/dast tools like sonarqube and veracode, Blackduck, Tenable 
+monitoring tools like Splunk, Datadog, Pagerduty, Uptime, New Relic,
+Prometheus, Grafana, ELK stack, Opsgenie, and Nagios,
+
+tns exp:
+
+Designed, implemented, and supported CI/CD pipeline using GitHub, Gitlab, Jenkins, Docker, Kubernetes, 
+Ansible and Python. Transformed TNS hand-off-based deployments into a fully automated CI/CD solution using 
+Jenkins Pipelines reducing release times by over 60%. 
+ Created and maintained AWS infrastructure by utilizing almost all the AWS stack (Including EC2, Route53, 
+S3, RDS, Dynamo DB, SNS, SQS, IAM) focusing on high-availability, fault tolerance, and auto-scaling 
+resulting in a 60% reduction in infrastructure cost. 
+ Implemented AWS security solutions, including IAM, Security Groups, and WAF, resulting in a 70% 
+improvement in infrastructure security.
+ Written Templates for AWS infrastructure as a code using Terraform templates to build staging and production 
+environment. 
+ Written several YAML files to create many services like pods, services, deployments, selectors and labels, 
+health checks, namespaces, config-maps and managed containerized applications. This resulted to prevent 
+environmental differences resulting in over 40% less build failures. 
+Designed, implemented and automated the applications security with different SAST, SCA, DAST tools like 
+SonarQube, Veracode, Blackduck, Tenable and integrated them into CI/CD pipeline. Experience in Integrating 
+SAST, SCA, DAST tools into CI/CD pipeline 
+
+verana exp:
+Implemented patch management using aws system manager and patched all the servers across the organization
+worked on  Building and Managing Hadoop EMR clusters on AWS. Worked on configuring and setting up 
+MWAA environment using EKS, S3 and ECR
+ Worked on building the golden image for different teams using Packer and Ansible. 
+Implemented a 'server less' architecture using API Gateway, Lambda, and Dynamo DB and deployed AWS 
+Lambda code from Amazon S3 buckets. Created a Lambda Deployment function and configured it to receive 
+events from your S3 bucket. 
+Integrated Applications and AWS Services with Datadog, Uptime and Opsgenie for monitoring and alerting. 
+internal servers to generate and automate reports to the management. 
+ Automated and implemented the Terraform for creating/administrating the AWS resources like VPC, Subnets, 
+Gateways, AutoScaling, Elastic Load Balancers, creating DB Instances and many others across different 
+AvailabilityZones. 
+
+IBM Exp:
+
+Used Ansible as Configuration management to automate repetitive tasks, quickly deploys critical applications, 
+and used Ansible Tower to monitor automation activity and manage infrastructure. 
+ Written Ansible playbooks & modules for Ansible customizations and to configure, deploy and maintain
+software components of the existing/new infrastructure. 
+ Created and managed Ansible playbooks and roles for automating the provisioning, package installations, and 
+deployed web applications on Apache web servers, Tomcat Servers, and standalone server environments 
+ Designed and created multiple deployment strategies using Continuous Integration and Continuous 
+Development (CI/CD) Pipelines and configuration management tools with remote execution. 
+ Ensured zero downtime using blue/green deployment strategy and shortened deployment cycles through Jenkins 
+automation. 
+ Written code for adding additional functionalities to the existing system
+
+groupon:
+Migrated from On-Premises Infrastructure to AWS Cloud focusing on high-availability, fault tolerance, 
+and auto scaling. Automated the build process in streamlining the multi-platform, and process of building 
+and eliminating the build errors, developed automated testing each build 
+ Worked on provisioning and managing Amazon Web Services (AWS) services like EC2, EKS, ECS, 
+ELB, IAM, Cloud Trail, Route53, RDS, VPC, SQS, SNS, Lambda, EBS, Elasticache, Elasticsearch
+focusing on production ready, load balanced, highly available and fault tolerant infrastructure
+public traffic into its private network. 
+ Managed users, groups with specific policies and attached them using IAM accounts and implemented 
+multi-factor authentication to meet security compliance. Created and maintained policies for S3 buckets 
+and used them for backup and storage on AWS. Encrypted S3 buckets for all CloudTrail logs encrypted 
+and policies to access the logs. 
+
+1.	Why Fulgent Genetics, what makes you want to work for us?
+
+
+The job description aligns well with my past experience and this is something that I want to be part of. There is a huge learning opportunity 
+for me in this role. I will be proud to contribute to its growth.
+
+2. Why h1 ?
+Zapire provides automation platforms liuke no code automation .so, i want to be part of that joruney. founded in 2001 , founder is tucker 
+current ceo is marc. 
+
+2.  Why should we hire you?
+Because the job description aligns well with my past experience  and  I feel I have the knowledge, skills and qualifications you’re looking for and  
+I want to learn new technologies eventually  increase my knowledge in this field at same time want to contribute to the organisation as well.
+I will be proud to contribute to its growth.There is a huge learning opportunity for me in this role. I believe it is a good oppurutnity to learn new
+ things from exp people.I will be getting a  platform to showcase my skills.
+and I believe this oppportunity will help me complete a major milestione in my roadmap to become a DevOps Lead or Infrasturcure head./ 
+Because job resposnbilities  I believe there is high chances that I can learn something new.it is a good oppurutnity to learn new things from exp 
+people.I will be getting a platform to showcase my skills.
+
+
+3. About work authorization or Visa sponsorship and start date 
+-- at present I am on H1B with approved  I-140 , So you just need to tranfer the my h1b , you dont need to doanything wot greencard.
+
+
+4.can you tell me about your leadership qaulities...??
+according to me a leadship qaulities are 
+encouraging creativity 
+listening and commincating effectively 
+positive attitude
+trying new things
+when I was in IBM , our team partipated in 2 day hackathon event-named CallforCode.at that time my manager told me to lead the team . Initially 
+i have no idea ,how to lead the team but with some exp that i have gained during my personal projects , I initially gathered all people and 
+I conducted a brainstorming session , later we integrated all the key ideas into one and worked on the development face of the idea. Here i splitted 
+the work and assigned to each of them some people are happy but some people are not uhappy becuase they didnot get what they want. I motivated them 
+by saying from each thing , we learn some thing new. later , we integrated those modules . Its just 2 day leadership , 
+according to me a leadship qaulities are 
+encouraging creativity 
+listening and commincating effectively 
+positive attitude
+trying new things
+
+
+
+
+5 .What is your salary expectations?
+My salary requirements are flexible and are negotiable.I have been doing some research on market for DevOps,Cloud, Site reliability engineer roles.
+I am expecting 180k as targeted salary all including and yes its always negotiable.
+
+5.What are your weakness?
+“My greatest weakness is that I sometimes focus too much on the details of a project and spend too much time analyzing the finer points. 
+I’ve been striving to improve in this area by checking in with myself at regular intervals and giving myself a chance to re-focusing on the 
+bigger picture. That way I can still ensure quality without getting so caught up in the details that it affects my productivity or the team’s 
+ability to meet the deadline.”
+
+
+6 .Team conflict?
+In one of the project, some of tasks had a depedency on my teammates tasks, which he was constanlty submitting late  costing my productivuty.
+ So, I called him for a coffee, I asked him about it  and asked is he going through any personal problems or it was work load. he said  
+ he is  been working  two projects parallely, and I requested him to make dependency tasks as priority than other tasks and told him that 
+ If he needs any help I would be happpy to help him and hea was hapy that I talked to him and resolved it perosnally.
+ 
+
+
+7.	What's your strongest example of communication ability? What did you communicate?
+
+I communicated with my clients when I worked with IBM to find out the requirements of the project.we used to have weekly meetings and mothnly releases
+When we work with a client you know that there will be many situations in which we have to communicate with them. One of those situations is our 
+Project Demo. I was the one who gave the presentation and interacted with them for further improvements and all. We used to provide some of the 
+solutions to client by developing prototypes.I remebered one demo, where we used ml for one of the repository appliation similar to google
+instead searching by typing the things , we used ml, directly scanning the device code to get the documents related to the particular device
+
+8.Tell me about a time you made a mistake and what was the outcome?
+ This incident was during my training days at IBM  where i waas given assesment to collect syslogs, weblogs 
+ from servers and build a dashboard. At the endo of assessmnet, I figure out that network team and  I were on differentt page about end results.
+ Those were minor changes was able to correct them. That mistake had helped me understand how things can get worse with differnet perspectives and 
+ from then I  make sure that beofre starting a prohect/task, end user and I are  on the same page.
+
+9. Why do you want to pursue masters and how you got interest in devOps.
+When I was in my bachelors , i dont know which path to choose, so after that I got oppurtuinity to work as cloud engineer at Groupon,
+then I moved to IBM and worked as DevOps engineer. There I realized that I want to learn deep about the os concepts , cloud concepts and networking
+concepts and I want spend some time doing some projects which helps to advance my careers and I decide to go with masters, since this also provides 
+me international learning experinace and working experience as well and also learning and working with diff people with diff age , diff community,diff
+nationalities , diff traditions . I love working with them
+
+10. what are the challeges you faced and how did yout ackled those 
+
+11. which things you want to learn in the next job and what are those why 
+12. what made you to show isnterest in this company 
+
+
+
+interview strucute 
+-- Phil director -- ci/cd pipeline for company --
+-- 2 in devOps and one with app security,
+-- phil asked about -- why you did with lymda like writing the scripts to automate the emr or ecr , writing api gateways ,
+writing cloudformation things to automate aws , he asked about networking concepts like creating vpc , security groups 
+-- if you get an issue in networking then you are able trouble shoot -- ans: yea , i can check the inbound and outbound along with security groups 
+
+--what area you want to foucs on , what is the thing that if you get a hance to learn in free time -- i like working with teraform to automate things 
+i like working on kubernetes , i like this kuberentes will be next big thing in the industry 
+-- do you have any experince using ansible ..??
+--
+
+--setup hiring hiring manager , coding 1-1, 3, 

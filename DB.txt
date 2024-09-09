@@ -1,0 +1,36 @@
+
+Distibruted Systems 
+
+--A distributed system in its most simplest definition is a group of computers working together as to appear as a single computer to the 
+end-user.These machines have a shared state, operate concurrently and can fail independently without affecting the whole system’s uptime.
+
+--eg: Traditional databases are stored on the filesystem of one single machine, whenever you want to fetch/insert information in it — 
+you talk to that machine directly.For us to distribute this database system, we’d need to have this database run on multiple machines 
+at the same time. The user must be able to talk to whichever machine he chooses and should not be able to tell that he is not talking 
+to a single machine — if he inserts a record into node#1, node #3 must be able to return that record.
+
+--dis: deploying, debugging and maintaining the systems. adv: fault tolerance, horizontal scalling, low latency(requests can be served more fast)
+--low latency: he shortest possible time for a request‘s round-trip time in a fiber-optic cable between New York to Sydney is 160ms.
+Distributed systems allow you to have a node in both cities, allowing traffic to hit the node that is closest to it.
+
+-- problem: db scalling: there is a web app , where the traffic increased and now we need scale there db for serving the request. we add
+2 read requests db syncrously with primary db and serve this sycronously. whenver they make insert/update then we point it to primary db server.
+We immediately lost the C in our relational database’s ACID guarantees, which stands for Consistency.
+there now exists a possibility in which we insert a new record into the database, immediately afterwards issue a read query for it and 
+get nothing back, as if it didn’t exist!. Propagating the new information from the primary to the replica does not happen instantaneously.
+There actually exists a time window in which you can fetch stale information. Now , we have a problem with write DB, If we have 2 write
+db's, then there will be problem with duplication. 
+
+--So there is a method called sharding(partitioning).With sharding you split your server into multiple smaller servers, called shards.
+ These shards all hold different records — you create a rule as to what kind of records go into which shard. It is very important to create the rule such that the data gets spread in an uniform way.
+lets say we divide the shards based on users a-k -shard1, l-q-shard2, q-z-shard3. more traffic going into single shard is called hostspot, we need to care full while divinding these shardssince, 
+resharding is expensiv and there will be a lot of downtime.
+
+--Distributed data stores are no-sql dbs, which are non relational, which porovides consistency,availability, and partition tolerance , CAP theorem states that a distributed data 
+store cannot simultaneously be consistent, available and partition tolerant. 
+--NoSQL dbs provide base properties (relational dbs provide ACID properties)
+basic availability: the system always returns a response
+soft state: system could change over time, even during times of no input (due to eventual consistency)
+eventual consistency: In the absence of input, the data will spread to every node sooner or later — thus becoming consistent
+
+Examples of such available distributed databases — Cassandra, Riak, Voldemort, Of course, there are other data stores which prefer stronger consistency — HBase, Couchbase, Redis, Zookeeper

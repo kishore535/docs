@@ -1,0 +1,346 @@
+-- AWS on 03/26
+
+public vs private vs on prem
+-- any body who have access to aws , can create public cloud . cloud providers like aws, gcp, azure are maintiang the servers  but 
+you have the controll over but aws has data center. Shared infrastructure:Many organizations utilize the same resources. 
+(Think renting an apartment in a large building).adv: Cost effective, scalability, managed service. Dis: Security,limited control..
+--if there anything like banking sector something , you and your organization managing the servers, then they buy the servers and 
+they use openstack or vmware to create servers .Dedicated infrastructure for a single organization. (Think owning your own house).
+adv: security and customzation. dis: costly, less scalable.
+on-prem: adv; high control, security and predictable costs: dis: scalability, high upfront costs, management burden. 
+usecases: oraganizations iwth sensitive data, strict compliance regulations, predictable workloads.
+
+uses:
+--high availbility  -- infra -no power loss or do hardware damage , if one region is down then they will move to other 
+-- scalability -- you can scale the servers based on traffic 
+--reliability  -- there will not be any errors or failures --uptime, durability , fault tolerance ,disaster recovery 
+--Elastic computing-- is the ability to quickly expand or decrease computer processing, memory, and storage resources to meet changing demands 
+
+-- we can use root or IAM user to login to the aws.
+
+IAM (Identity and Access Management):
+--IAM is a critical AWS service used for securely managing access to AWS services and resources. It involves both authentication 
+(verifying identity) and authorization (granting permissions).
+2. IAM Users:
+Purpose: IAM users represent individual users or services that interact with AWS resources. They are typically used for authentication and authorization.
+Authentication: IAM users can log in to AWS using a username and password or programmatically access AWS services using Access Key ID and Secret Access Key.
+Authorization: IAM users are granted permissions via policies. For instance, AWS Managed Policies like AmazonS3FullAccess can be attached to a user or group to control access.
+Best Practice: Avoid using the root account for day-to-day tasks. Instead, create IAM users with appropriate permissions, ensuring accountability and tracking.
+3. IAM Groups:
+Purpose: Groups simplify managing permissions for multiple users. You can attach policies to groups, and all users within the group inherit the permissions.
+Example: If you have a Data Engineering team, you might create an IAM group, add all relevant users, and then attach a policy that provides access to specific data-related resources.
+4. IAM Roles:
+Purpose: IAM roles are used to delegate access between different AWS services or grant temporary access to users or applications without needing long-term credentials.
+Example: If an EC2 instance needs to access an S3 bucket, you create an IAM role with the necessary permissions (like AmazonS3FullAccess) and attach it to the EC2 instance. This allows the EC2 instance to interact with S3 securely without embedding access keys in the instance.
+Temporary Nature: Roles provide temporary security credentials, which makes them ideal for services or applications where long-term credentials are not suitable.
+5. Security Best Practices:
+Avoid Root User: The root user has unrestricted access to your AWS account. Instead of using it, create IAM users with specific permissions.
+Least Privilege Principle: Always assign the minimum permissions necessary for users and services to perform their tasks.
+Use Multi-Factor Authentication (MFA): For added security, especially for sensitive accounts like the root user.
+
+VPC (Virtual Private Cloud):
+--A Virtual Private Cloud (VPC) is a logically isolated section of the AWS cloud where you can launch AWS resources in a virtual network that you define.
+ It provides enhanced security, scalability, and customization of your network environment.Security and Isolation:
+--Subnets:Public Subnets: Resources in public subnets are accessible from the internet through an Internet Gateway (IGW). Typically, resources 
+like load balancers, bastion hosts, or public-facing web servers are placed in public subnets.
+--Private Subnets: Resources in private subnets are not directly accessible from the internet. They are usually reserved for databases, 
+application servers, or any resource that does not require direct internet access.
+--Security Groups:Security Groups act as virtual firewalls, controlling inbound and outbound traffic to resources in your VPC at the instance level. For example, you can restrict access to specific ports and IP addresses, ensuring that only authorized traffic can reach your EC2 instances.
+--Network Access Control Lists (NACLs):NACLs provide an additional layer of security by controlling traffic at the subnet level. Unlike Security Groups, NACLs are stateless, meaning you need to explicitly allow both inbound and outbound traffic.
+--Routing and Connectivity:Internet Gateway (IGW):An IGW allows resources in your VPC to access the internet. Public subnets route their traffic through the IGW, enabling instances within those subnets to communicate with the outside world.
+--NAT Gateway:A NAT (Network Address Translation) Gateway allows instances in a private subnet to access the internet while preventing the internet from initiating connections with those instances. This is essential for instances that need to download software updates or access external APIs without exposing their private IP addresses.
+--Routing:Route Tables: Every subnet in a VPC is associated with a route table that determines where network traffic is directed. For instance, a route table can direct internet-bound traffic from a public subnet to the IGW, while private subnets might route traffic to a NAT Gateway for internet access.
+Flow of Traffic: For example, a user accessing an application hosted in a private subnet would typically follow this path: User -> Internet Gateway -> Public Subnet -> Load Balancer (in the public subnet) -> Application in the Private Subnet.
+Advanced VPC Concepts:
+VPC Peering:VPC Peering enables communication between VPCs in the same or different AWS accounts. It allows you to route traffic between VPCs using private IP addresses, creating a secure and scalable network architecture.
+VPC Endpoints:VPC Endpoints allow you to privately connect your VPC to supported AWS services without using an IGW, NAT device, VPN connection, or AWS Direct Connect. Traffic between your VPC and AWS services does not leave the Amazon network, enhancing security.
+Transit Gateway:A Transit Gateway enables you to connect multiple VPCs and on-premises networks through a central hub. This simplifies network architecture and management in large-scale environments with many interconnected VPCs.
+
+
+Security Group vs. NACL (Network Access Control List):
+--Security Groups:Instance-Level Security:Security Groups are virtual firewalls that control inbound and outbound traffic to and from 
+AWS resources at the instance level (e.g., EC2 instances). They are associated with the resources directly and allow you to define 
+which traffic is allowed to reach and leave the instance.
+Stateful Filtering:Security Groups are stateful, meaning that if an incoming request is allowed, the corresponding outbound traffic is
+ automatically allowed, and vice versa. This simplifies the management of traffic rules.
+Allow-Only Rules:Security Groups only allow "allow" rules; there is no option to explicitly deny traffic. This makes them easier to manage and ensures that only specified traffic is permitted, while everything else is implicitly denied.
+Traffic Control:Inbound Traffic: By default, all inbound traffic is denied, and you must explicitly allow traffic on specific ports and IP ranges.
+Outbound Traffic: By default, all outbound traffic is allowed, but you can configure rules to restrict it.
+
+Network Access Control Lists (NACLs):
+Subnet-Level Security:NACLs provide an additional layer of security at the subnet level. Unlike Security Groups, which control traffic to individual instances, NACLs control traffic entering and leaving an entire subnet.
+Stateless Filtering:NACLs are stateless, meaning that if you allow inbound traffic, you must explicitly allow the corresponding outbound traffic as well. In other words, each direction of traffic must be managed separately.
+Allow and Deny Rules:NACLs allow you to define both "allow" and "deny" rules. This provides more granular control over the traffic flowing into and out of your subnets.
+Order of Rules:NACLs process rules in numerical order, starting with the lowest numbered rule. Once a rule is matched, no further rules are evaluated. This means that careful planning of rule order is essential to ensure that the desired traffic is allowed or denied.
+Subnet Association:A subnet can be associated with only one NACL at a time, but a single NACL can be associated with multiple subnets. This allows for centralized management of traffic rules across multiple subnets.
+
+
+VPC architecure for 3 tier 
+
+--VPC:
+CIDR Block: Choose a /16 CIDR block that accommodates your future needs (e.g., 10.0.0.0/16).
+Availability Zones (AZs): Select at least three AZs within the same region for high availability and fault tolerance.
+Subnets:
+--Public Subnet:
+Create one public subnet per AZ (/24 CIDR block within VPC CIDR block, e.g., 10.0.1.0/24 in AZ1, 10.0.2.0/24 in AZ2, 10.0.3.0/24 in AZ3).
+Place instances requiring internet access (e.g., load balancers) in this subnet.
+--Web Server Subnet:
+Create two or more private subnets per AZ (/24 CIDR block within VPC CIDR block, e.g., 10.0.4.0/24 and 10. 0.5.0/24 in each AZ).
+Place web servers in this subnet.
+--Database Subnet:
+Create two or more private subnets per AZ (/24 CIDR block within VPC CIDR block, e.g., 10.0.6.0/24 and 10.0.7.0/24 in each AZ).
+Place database instances in this subnet.
+Route Tables:
+--Public Subnet Route Table:Create a route table for each public subnet.Add a route with a destination of "0.0.0.0/0" and a target of the internet gateway (explained below).
+--Web Server Subnet Route Table:Create a route table for each web server subnet.Add a route with a destination of "0.0.0.0/0" and a target of the NAT gateway (explained below) in the same AZ.
+--Database Subnet Route Table:Create a route table for each database subnet.Consider two options for database access:
+Option 1 (Direct connection): Add a route with a destination of the web server subnet CIDR block and a target pointing to the web server subnet route table. This allows direct communication between web servers and databases (less secure).
+Option 2 (PrivateLink): Use AWS PrivateLink to establish a private connection between web servers and databases within the VPC, eliminating internet exposure for database access (more secure).
+--NAT Gateways:Create one NAT gateway in each AZ where you have a private subnet.
+Associate an Elastic IP address with each NAT gateway for outbound traffic.
+--Internet Gateway:Create a single internet gateway in your VPC.Attach the internet gateway to your VPC.
+--Security Groups:Web Server Security Group:Allow inbound traffic only from the load balancer security group on port 80 (or 443 for HTTPS).
+Restrict outbound traffic to the minimum required ports (e.g., outbound SSH access for management).
+--Database Security Group:If using direct connection (Option 1 for Database Subnet Route Table): Allow inbound traffic only from the web server security group on the specific database port (e.g., MySQL: 3306).
+If using PrivateLink (more secure): No inbound rules needed as PrivateLink isolates communication.
+Restrict outbound traffic to the minimum required ports (e.g., outbound traffic to patching servers).
+--Load Balancer Security Group:Allow inbound traffic from the internet on port 80 (or 443 for HTTPS).Allow outbound traffic to the web server security group on port 80 (or 443 for HTTPS).
+Additional Security Measures:
+--VPC Endpoints: Use VPC Endpoints for services like S3, SQS, and Secrets Manager to keep traffic within the VPC and avoid the public internet.
+--Web Application Firewall (WAF): Implement a WAF in front of your web servers to protect against common web application attacks.
+--AWS Inspector: Regularly scan your resources for vulnerabilities.
+-- Security Hub: Use Security Hub for a centralized view of your security posture and findings.
+--IAM Roles: Grant least privilege access to resources with IAM roles.
+--Monitor Logs and Metrics: Continuously monitor logs and metrics for suspicious activity.
+
+VPC Endpoints
+--vpc endpoints are used to for securly conecting to aws servvices like s3, dynamodb, rds, sns,sqs....etc. there are 2 typesof vpc endpoints
+we can avoid internet gateways,nat gateways, aws direct connect...
+ 1. interface endpoints: functions like elatic network interface with a private address from you vpc. using aws privatelink , we can securely connect with aws services. it will generate elastic interface 
+ 2. gateway interface: it is availble for only s3 and dynamo db. dont require separate interface or ip address. adv: security, const effective 
+-- for a closed community, internet gatweay is like main gate and nat gateway is like secure exit with escort. now vpc endpoints are like 
+secure tunnel where you can direct have access to aws grocery store.
+
+ROUTE 53
+-- it provides the dns(domain name system) as service , you dont use ip adress and we replace it with domain name, but 
+someone maps your domain name to ip .1. its easy to remember the domain name instead of Ip . 2. ip adress will change , it can be dynamic
+-- DNS keeps a lot of records , generally we will purchase domain name from go daddy , so aws cameup with this service as route53.
+-- when user tries to acess, 53 comes into picture and it checks the dns and try to resolve the ip and send it to appro service(LB)
+--route53->hosted zones (in this we create dns records)
+--rouste53 cal also perform health check for webservers , like it can send request to web server and checks activeness
+
+AWS PROJECT:
+--to improve resilency , you deply the servers in 2 az using autoscalling and application load balancer, for additional security 
+we deploy servers in private subnet, server receives requestss through load balancer, server can connect to internet using nat , to improve
+resiliency we deploy nat gateways in both az.
+-- vpc has public subnet and private subnet in both az, each publich subnet contains load balancer and nat gatewya, servers runs 
+in private subnet uses auto scalling and receives requests from load balancers , servers can connect to internet using nat.
+-- nat will mask the ip address , when ec2 server tries to access internet, internet will see nat ip address but not ec2 address
+**--bastion or jump server -- instead of directly connecting to server , we can use bastion,-- proper logging mechanish and auditing and 
+can condfigure 
+**--ec2 instances in private subnet will not get public ip adress, so we create bastion ec2 instacne and use that to login ec2 in private
+
+QUESTIONS:
+--**what is statefull and stateless in aws
+stateless services treat each request as independent transaction without any knowledge of previous req, they dont store the sesion data
+eg: web servers, dns servers, NACL in aws : these are highly scalable 
+stateful: these services maintian session data and state information across mutliple requests. they store and remember details from previous transaction
+eg; databses, ecom websites. security grps in aws. scaling is more complex as state 
+
+S3
+-- 3 typrs of storge -file storage(EFS), block storage(EBS), object storage(S3).
+--it is a bucket used to store the data, http://s3.amazon.com/demo -- can be accessble globally. name-> region->copy settings from existing bucket
+-->objects owenerhsip(acl's) ->bucket version ->block public access(by default)->encryption(by default)
+--s3 provides 99.99999 reliablity -> out of 100crores objects after 100 yrs htere is a chance of 1 bucket deleted .
+--scalabbility -- one file should not be more than 5tb , choose multiparts to upload it, security_> encryption , bucket policies ,access
+control , enable logs to monitor requests 
+--policy : { 
+			"version":
+			"statement": [
+			{"sid": , principal, Efect:allow, Action:[], Resource: []}}}
+			
+AWS CLI
+-- its a python utility , you can pass some arg like credentials or variables..etc .it uses api like post, get delete, put to do things
+instead of using ui , using cli we can do some automation like run cft, teraform..etc. aws configure , aws s3 ls , aws help, aws ec2-instance 
+
+AWS CI/CD
+--step1: source code to host , step2: jenkins pipeline step-3: within pipeline we have build/test/sast-sca maven/dcoker , 
+step4:deploying code: argocd, anisble, ..etc.
+-- we can use code commit for storing code, code pipeline we can uselike jenkins, code build for compiling code, code deploy to deploy code
+--CI-codepipeline/jenkins -- checkout-build --code scan --image build--image scan -- image push 
+--CD- invoking cd using ansible/shell script is old way -- now we can use gitops for CD-- using gitops not only push the artifacts/kubernetes resourses --its 
+also manage constantly -- theu are declarative in nature.
+--Code build is to build the code , CD part is taken care by code deploy , you can deploy code in kubernetes or ec2 or anywhere.
+--jenkins is popular for features, integration and jenkins is not to restrcited to aws. code pipeline-if cost is not worry then 
+everything will be taken care by aws. 
+--code pipeline-- source - artifacts - build -deploy  ( you will configure source code as code commit and build as code build and 
+
+AWS Cloud Watch 
+-- it is a service which is watching activities on cloud, its like watchman/gate keeper. this will help in monitoring, alerting, reporting
+and logging. you can keep tract of activities. logging is capability of providing insights of which service is using other service.
+like ec2 instace trying to connect with other. dashboard -> allarms, logs, metrics(1026), events, insights, 
+
+AWS Lambda:
+-- it belongs to compute which solves serverless. aws will take care of server depending upon req like is it python or java .
+--it will always scaleup and scale down based on traffic , it comes under computing , contributes to cost optimization
+--you need to run a script daily , then you dont need to create ec2 everyday and delete after running script.
+--you can use labda for this , cloud watch need to trigger lamda becz labda are event driven. create function -> it only supports java
+python, go, nodejs,.net.-> accesss->add trigger ,add destination
+
+AWS Cost optimization:
+-- devops team are part of cost optimization, eg: a developer attached a ebs volume to ec1 and started taking snapshots everyday, he deleted ec2 and volume but forgot to delete snapshots
+, aws will keep charging you for this snapshots. we cn write a python script which will delete the snapshots where a volume is not attached . by using timestamp also we can delete snapshotslike 6 monitor
+ago . we can keep this script in lamda and confgiure event in cloud watch or s3 to trigger this script.
+
+AWS CloudFront
+--it provides sol for content delivery network, eg: instagram - a person in aus uploads reel or image, insta will have central storge system , it copies to central storage. anybody in world
+can access it from insta portal. without cdn , a person in india and insta storage is in usa, request should go through multiple routers or hubs and reach insta server and again same multiplerouteres 
+reach person. latency is high. here comes the cdn, perople instead of accessing insta server , we wiill map to cdn using dns resolution. CDN creates local copies of image. insted of 
+image getting stored in central location , it will be stored in edge/local locations. people in india will access edge locatio image instead of centraly stored image.
+--s3-cloudfront-- s3 used for static things, if host website in s3, challenges are security like users have direct access to bucket, latency , cost for storing audio/video images. there is concept of 
+CDN, it helps to store things in nearest edge location. users now cannot access s3 directly and low latency becz content is cached at nearestt location. data trnasfer is less becz of nearestloactions 
+so cost optimixation. 
+--s3 -> static website-> index.html->error.html then go to cloudfront -> distribution 
+
+AWS ECR:
+-- it is used to store and manage containers, it is similar to docker hub where we store images. its same like github repo for images.
+--ECr keeps the security, like its an private registry, if you are using aws then you cna use IAM users , ECR also has very good integrationwith
+other services like eks, fargate..etc.
+--ecr /> private (managed by iam ), public repo -> Image scan settings-> name of conatianer:-> build the image in local, tag the image and push
+image to ecr> docker tag and docker push 
+
+AWS ECS:
+--when to you use ecs and eks..??-> you can generate a image and run a coantianer and expose to end users: why we need kubernestes and ecs
+-- problem is : auto healing and auto scaling with docker:. like when someone deletes the container and what if traffic increases.
+--if container is down, we can spin up another but end ip adress will change . ecs also has auto healing and scaling options.
+--ecs doesn not have features like crd: custom resource definition, you can submit this crd to kubrenetes so you extend the ,
+there are products like istio, argocd: it is like kubernetes controller , flux cd as well. you can use ingress contoller integrate lb,
+.yes with ecs alos we can do lb but, advance security, advance secrets management we cannot do with ecs:
+--ecs, you can use ec2 or fargate for compute: kubenertes is complicated and even in future it will become more complicated , so aws 
+came up with ecs but its not famous.
+--create a culster in ecs -> ec2 or fargate for running contianers:-> task definiton: define same like pod.yml: cpu, memory,os, task role,
+:container might need access to other like s3.. taskexecutionrole -> port mappings-> monitoring : cloudwatch-> 
+-- aws came up with ecs becuase of kubernetes complexity.
+
+AWS Secrets management 
+-- there 3 types to store secrets: secrets manager, system manager and other hashicorp vault(third party). generally we store dcoker username/pwd
+database username/pws ...etc. 
+--systems manager->parameter->strings
+--secret manager is introduced becz a lot of tiume you need to rotate the information. lets certificates , which will expires in 180 days
+it should be automaticall rotated. if you rotate in right time, chance of risk is reduced.let say you have db pwd, you cna configure 
+secrets manager to rotate in 90-180 days. 
+-- like docker url you cna go with system maanger, pwd with secret manager, if info is highly secured you need to go with secret manager
+-- code pipeline, where we built the image and now we need to upload to docker registry. username and url are not highly sensitive,
+we can use secrects manager to store passwed.
+-- whenever your are using only aws , then you are tied to aws managed services. if you want to move to aks , then it becomes hard 
+to migrate. so using third party solutions like hashi corp vault. open source project and community backup, many additional features 
+and encrytion. 
+
+AWS CONFIG
+--there is one instance which follows complaice like monitoring of your orgnaization but there is other which dont follow.
+-- who will take care of these things ,manageing compliance , using config we can do it .
+--using aws config , we can verify how many are complianct or non compliant ..etc.-> create rule here and integrate with lamda like 
+when an ec2 instance is created , updated , deleted...etc.
+-- if you are working for government, banking, financial sectors you need complaince like s3 life cycle management, ec2 monitoring..etc
+-- aws managed rule -> create custom lambda rule-> create custom using guard
+
+CLoud trail 
+-- cloustrail is used for audting and loging, it mainly for auditing, complaince and security. it records all the unauthorzed api 
+calls , it continouly monitors and logs api calls made to aws services.we can use it for oprations auduting as well like to track 
+user activity across the account. it povides detailed record of creation, deletion, modification to aws services.
+-- we can integrate it wil cloud watch for central logging 
+NAT Gateway 
+--there are 2 public and private nat. public nat is created in public subnet and these are useful for private ec2 to connect with 
+external internet for pathcing or nayother. outbound connections to internet.
+-private nat resides in private subnet nd enables instances in private subnets to connect with other vpc or onprem networks, 
+AWS LOAD Balancers :
+-- there 3 types of load balancers - application load balancers, network and gateway.  we need load balancer for trafiic increase , which imapct 
+slowness off app and downtime of app. we increase the ec2 instance and infornt of it we place the load balancer and instead of accesing the 
+ec2 instance , end customers will access the load balancer.
+--lb follow round robin like 100 requests, it will forward 33 to ec1 then 33 to another ec2- another 33 to ec2. nginx , f5, envoy, are load balancers . 
+-- how the packet travels-> user want to acess linkedln-> user from browser open request-> it will travel over internet and linkeldn
+server will respond . what happens internally is request flows through 7 layers.http request ->application layer _> presentation (ssl/tl)(encryption)
+->session layer(create session )-> transport layer( key layer, requests split into small packets-checks security as well)->network layer(
+small packets need travel through routers)-> datalink layer( request through switches)-> physical ( servers need to connected to cables, cables need to 
+connect to switches and switches to routers).
+--alb is on layer 7 -> we deal with http traffic and nlb is on layer4. at l7 you can intercept http request and read the reauest , what is 
+are headers, paths and host. we can perform ratio based routing. it can perfomr ssl of loading, if you send plain request to alb, but alb will
+send secure reauest to ec22 instances .
+--ALB is costly load balancers, it has lot of advanced features. there will be a delay of response because it interprests the http reuest
+--L4-NLB-- whent this http comes to layer4 -> then NLB can perform operations. gaming platforms, streaming platforms require this NLB, this 
+helps in low latency and high transmission of data.
+--NLB is less costly, if you want no low altency, and high tranmission , go for NLB. if you want to perform load balmacing and expect delay then 
+go for ALB.
+-- gateway load balancers->virtual appliances-> if you using vpn kind of applications like firewall application. if we use alb , the customer/ trafic which are received 
+cannot handled by ALB and it also does not add security.  GatwayLB offers high security like encryption ..etc. 
+--NLB-content streaming, with NLB there is no delay-> NLB can create sticky sessions, like 3 hour movie -> all requets need to go to 
+single server, like all packets need to go to single server. entire single video need to sent to client 
+
+CLOUD MIGRATION
+--Preparation, Planning, Migrate, Monitor, optimize.->
+--preparation-> either you need migrate monolothic or 200 microservices-> you need check app , if it is not microservices , then we needfirst 
+think about converting monolotic to microservices -> whne you move on to cloud, when you want to be cloud native , you need to have microservices
+like you can make contianers and deploy on to kubernetes . we need to devide which applications will go in which stage , and which migration
+strategy we need to use 
+-- there are 7 migration strategies like rehost, replatform, relocation, retain, retire, 
+--Planing -> preparation and planning are one time activites.
+--migration and monitor -> we genrally write scripts like terraform for creating ec2 and shell scripts to start it and cloud watch monitoring...
+--optimize-> this is also one time activity, we migrated to cloud, what we achived by spending 1-2 yr on migration. by migration we achived 
+40% reduction in price , but we can also check whether we can move it to 30% 
+-- migration strategies-> 7 R '
+-- rehost , refactor/rearchitecure, re platform -> all these 3 are lift and shift- rearchitecture , relocate, retain , retire, repurchase 
+-- we generally use rehost which is called as lift and shift , -> we generally create same environment in cloud as well, like lets say 
+we have kubernetes with 3 nodes, then we create 3 ec2 instance and same number of namespaces and deploy it. with lift and shift , we genrally 
+get les optimization but once after migration we can work optimizing the resources.
+-- replatform -- this is also kind of lift and shift but we will take best practices(good features) like we createsame kubernetes but we 
+keep control plane in different places for scalablity/availability.
+--refactor/re architecture-- if your application is monolothic then we need to shift it to microserfices , then we need to migrate to aws
+--relocate--you have in house kubernetes but you can migrate to eks or openshift on aws(ROSA). it is costly as well. here you are migrating and changing 
+the platform as well
+--retain-- there are some applciation which are critical like banking, where some applciations should e on on-prem and other on aws, but 
+connect these applications to aws applications in a secure way 
+--retire-- like can we retire thses applciations or move to cloud.
+--repurchase--
+-- some times we need to migrate databases. we need to little more concisosu while doing db. like we are using mysql and we need to find 
+out which aws service is perfectly suitable for db. step-2 we need to take backup , during migration we might loose some data.
+
+AWS 3-TIER ARCHITECTURE 
+--if you are end user then if click some product description on amazon, this despriction is stored in database. frontend -backend-database 
+--frontend - user requirement(web server) -> send request to backend (app server)-> response back to fronend - 2 tier architecutre 
+--2048 app is a 2 tier architecure. 
+-- user request -> route53 ->cloud front-> load balnacer-> auto scalling grps-> front in vpc1->load balancer ->asg-> backend in vpc2->lb->asg-> primary db in vpc3
+
+--AWS Services-- Storage(EFS,EBS, S3, S3 glacier, Backup, Files Cache),Networking(vpc,subents,gateways,route53, direct connect, elb),
+compute(ec2,lamda,auto scalling, app runner, lightrail,loacal zone, outposts), containers(fargate,ecs,eks,ecr,copilot), Database(aurora,
+synamosb, redshift, elaticcashe, documentdb, neptune, keysapces, rds, timestream), analytics(emr,athena,kinesis,data pipeline,quicksight)
+blockchain(Qldb,managed blockchain), ML(sagemaker,comprehend,transcribe,bedrock,codeguru,elastic inference,augmented ai, code whisper,
+deeplens, textract, rekognition, lex, forecast), Security(guardduty, IAM, Inspector, artifact, detective, cognito, cloudhsm, directory service,
+macie), IoT(iot core, iot greengrass, iot fleetwise,iot analytics, iot device defender, iot events), multimedia(ivs,elastic transcoder,
+nimble studio, elemental medialive, elemental media connect), frontend web content(app mesh, apigateway, cloudfront,location service, device farm)
+
+COST OPTIMIZATION
+-- EMR-we have lot of data scientists and data engineers , who use emr for data processing, they use spark, haddop fink..etc. they used to spin up 
+these clusters manauly and they used to define their own intances types as well and soemtimes they forgot to turnoff clusters after work.
+we implemented rundeck which is an open source tool and has user friedly interface , where users can select predefined instance types and 
+configurations , tailored to specific workloads. we also added logic to terminate these clusters ,if they remain idle for certain time.
+--resource right sizing(monitoring,logging) -some teams are suing ec2 which are underutilized or oversized, we used aws cloudwatch, thrid party tools like datadog and monitored resources , 
+used those stats(cpu,memory..etc) to size the instances, dbs and other resources for applciations. this also helped to monitor cost.
+--instance scheduling: implemented script to stop and start at certain times for non prod(staging qa), ensuring that instances should only run 
+during work hours, this way we reduced the costs. implemented it using aws lambda to start and stop instances between schedulled times 
+(9am to 6pm) and used cloudwatch events to trigger lambda. we also hvae rundeck to start env manually if they needed.
+--reserved instances: using these reserved instances for predictables workloads. like signing the instances for 3 yrs , we get 75% of discount
+we can use these for long running applications ...etc
+--spot intances-> we have used spot instaces for batch processing for our payment division. previouslt they used to run it on on-demand 
+instances. we have used auto scaling group with mix of spot and ondemand. and step functions to pause and resume jobs if spot intance is 
+not availble. for reliabiulty , fualt tolerance , batch processing are not time sensitive and can tolerate interruptions.
+spot instacnes are like , aws will give them when there is no demand and take them back with short notice(2 min warning). we need to get
+bid , set maximum price you want to pay , if your price exceeds spot price , then instance is launced. if spot price exceeds your max price
+then aws will take back with 2 min warning.
+--storage optimization-> we have implemented lifecycle polices to arhcive and move the logs data from s3 to glacier. 
+--EBS volumes-> ec2 instaces were deleted but associated ebs volumes were not, we implemented cleanup script which identifies ebs volumes
+based on the inactivity every week. we used lamda and cloud watch events to check it weekly and we manually veirfies it and deletes them.
+--cost explorer and budget- this provides detailed info related to resource costs, we used this to identify spending patterns and resoucre usage.
+used cost allcoation tags to trach and reprot costs. we can use budget to setup monitoring for some amount and alerting if it exceeds 
+certain amount. we can setupd daily budget and monthly budget as well.
+-- 
+--

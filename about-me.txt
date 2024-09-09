@@ -1,0 +1,49 @@
+about me:
+
+I am a Senior DevOps Engineer with extensive experience in cloud architecture, specializing in designing and deploying AWS,Azure 
+infrastructure using Terraform. My expertise includes cloud networking, security, and automating infrastructure provisioning. 
+I have a strong background in containerization with Docker and orchestrating Kubernetes clusters. Additionally, I am skilled in CI/CD 
+tools like GitLab and Jenkins, configuration management with Ansible, and implementing monitoring solutions with Datadog, Prometheus, 
+Grafana, and alerting systems like Opsgenie to ensure reliable and secure system operations. 
+I code in python and shell to automatate repetative tasks and have hands-on experience with SAST, SCA, and DAST tools including SonarQube, 
+Veracode, Synopsys, and Tenable.
+
+CURRENT ROLE RESPONSIBILITES:
+In my current role as a Senior DevOps Engineer, my day-to-day responsibilities are divided into two main areas: development and support.
+
+Development:
+Infrastructure as Code (IaC): I focus on developing and managing infrastructure using Terraform, ensuring that our AWS environments are 
+scalable, secure, and aligned with the needs of various teams, such as data engineers and application developers. This includes writing 
+and maintaining Terraform modules, automating resource provisioning, and implementing best practices for cloud infrastructure.
+
+CI/CD Pipeline Management: I design and maintain CI/CD pipelines using GitLab, integrating them with Jenkins, Ansible, and Docker. 
+This involves automating the build, test, and deployment processes, as well as integrating security tools like SonarQube, Veracode, and S
+ynopsys to ensure code quality and compliance. we already have some CI?CD pipeliines for applciation , if we get any request to develop
+new CI?CD pipepline for new appilcations , then we work onit. along with this we also try to optimize existing pipelines like 
+reducing deployment time or increasing security.
+
+Containerization and Orchestration: I work on containerizing applications using Docker, transforming monolithic Java applications into
+ microservices, and deploying them on Kubernetes (EKS). This includes managing Kubernetes clusters, optimizing deployments, and ensuring
+ that our microservices architecture is robust and scalable.
+
+Support:
+AWS Infrastructure Support: I handle day-to-day support for AWS infrastructure, addressing any issues or requests that arise. This 
+involves monitoring cloud resources, troubleshooting problems, and responding to alerts. We use Jira to track these tasks, where 
+tickets are created for AWS-related issues such as performance bottlenecks, security incidents, or resource scaling.
+
+Incident Management: I am responsible for managing incidents related to our infrastructure and applications. This includes identifying 
+the root cause of issues, implementing fixes, and ensuring that similar issues are prevented in the future. I collaborate closely with
+ other teams to resolve incidents quickly and efficiently.
+
+Collaboration and Documentation: I regularly collaborate with developers, data engineers, and other stakeholders to ensure that 
+infrastructure changes align with project requirements. I document processes, configurations, and best practices in Confluence, 
+ensuring that our knowledge base is up to date and accessible.
+
+Tools and Tracking:
+Jira: We use Jira extensively to manage our work, track progress, and ensure that all tasks are completed on time. Jira boards help 
+us visualize the workflow, prioritize tasks, and manage both development and support activities. I also use Jira to log and 
+track issues, ensuring that all AWS-related problems are documented and resolved promptly.
+Daily Standups and Meetings: I participate in daily standups and regular meetings with cross-functional teams to discuss ongoing 
+projects, address any blockers, and plan upcoming work. These meetings are crucial for keeping everyone aligned and 
+ensuring that our development and support efforts are coordinated.
+
