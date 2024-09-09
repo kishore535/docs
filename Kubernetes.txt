@@ -1,0 +1,192 @@
+-- https://github.com/techiescamp/kubernetes-learning-path?tab=readme-ov-file
+
+--Overall Kubernetes helps you achieve the following.
+Self Healing
+Automatic Container Scheduling
+Horizontal and Vertical Scaling
+Rolling application upgrades and downgrades with zero downtime
+
+--Kubernetes consists of etcd, kube scheduler, kube controller, api server,cloud controller and worker node consist of kubelet, 
+container runtime(docker),kubeproxy. 
+
+API Server: 
+--it acts as medium between the kubctl(which requests) and etcd , kubectl uses restapis for communication with api server , wheres 
+scheduler, controller will use grpc to communicate with apiserver
+--key things: Api management, authentication and authorization, processing api requests and validating data for api, it is the 
+only component that communicates with etcd. 
+
+ETCD:
+--it is brain of the kubernetes, it is a distributed system with key-valur pair, 
+--Key Things: strongly consistent- same as cap theorem, if there is an update, then it will update to all other nodes thus making 
+it strong consistency from eventual consistent. Distributed: runs on multiple nodes, key value store.
+
+--Working: it stores all configurations, states and metadata of kubernetes objects(pods,secrets,deployments, configmaps,...etc
+etcd allows client to subscribe to events using watch api.kubernetes api server uses etcd watch functionality to track change 
+in the state of object.** etcd stores all objects under the /registry directory key in key-value format. 
+For example, information on a pod named Nginx in the default namespace can be found under /registry/pods/default/nginx
+
+Kube Scheduler:
+--it is responsible for scheduling pods on worker node, when you deploy a pod, you will specify pod req like cpu, memory, 
+taints, tolerations, peristent, pv's, ,
+--Key Thing: it uses filtering and scoring operations. In filtering , it finds the best node to fit the pod, if there are 
+5 best nodes, then it selects 5, if there is no node then it will move pod to unschedule mode/queue. if there are 100 nodes, 
+then schedular will not iterate over 100 , there is parameter called percentageofnodestoscore,the default value is 50%,
+so it tries to iterate over 50% of nodes in a round-rubin fashion. In Scoring phase , the scheduler ranks the nodes 
+by assigning a score to the filetered worker nodes. if all nodes has same score then random node will be selected. Once node 
+is selected , the schedular creates a binding event in api server.
+
+--Working: it has to phases scheduling and Binding, 
+
+
+Kube Controller:
+--controller program runs infite loops meaning it runs constinously and watches the actual and desired state of objects.
+there are diff controllers like built in controllers: deployment controller, replicaset, daemonset controller, job, namespace,
+node controller, service accounts contoller , cronjob controller, 
+--Key-things: it manages all the controllers and you can have custom controllers in kubernetes.
+
+Kubelet:
+--it is an agent component that runs on every node in cluster, it doesnot run as container but runs as daemonset,systemd.
+--it is responsible for creating, modifying,deleting conatiners in the pod. responsible for handiling readiness, liveliness,
+starupprobes, responsible for mounting volumes by reading pod config and creative respective directories on the host for voume mounting
+collecting and reporting node and pod status via calls to api server with implementations like cdivisornad CRI.
+Other than podspec from api server , kubelet also accepts podspec from file, https..etc. best examplis is static pods.
+static pods are controlled by kubelet not api server
+
+--Working:  Kubelet uses container runtime interface -grpc to interact with container runtime. it exposes http endpoint to 
+stream logs and provides exec sessions for clients. it uses cni plugin configured in the cluster to allocate the pod ip
+address and setup any necessary network routes and firewall rules for the pod.
+
+Static Pods:
+-- static pods are contolled by kubelet not api server. his means you can create pods by providing a pod YAML location 
+to the Kubelet component. However, static pods created by Kubelet are not managed by the API server.
+**--While bootstrapping the control plane, kubelet starts the api-server, scheduler, and controller manager as static pods 
+from podSpecs located at /etc/kubernetes/manifests.
+
+
+Kube Proxy:
+--to understand it , we need to have knowledge on kubernetes service and endpoint objects.Kube-proxy is a daemon that runs on every node as a daemonset. It is a proxy 
+component that implements the Kubernetes Services concept for pods. When you expose pods using a Service (ClusterIP), Kube-proxy creates network rules to send traffic to 
+the backend pods (endpoints) grouped under the Service object. Meaning, all the load balancing, and service discovery are handled by the Kube proxy.
+--Working: kubeproxy talks to api server to get details about the service(ClusterIP), respective pod ips and ports. monitors for changes in service and endpoints.
+Kube-proxy then uses any one of the following modes to create/update rules for routing traffic to pods behind a Service, IPtables or IPVS. IPTables: it is the default mode.
+in this mode, traffica is handled by iptable rules. this means each service , iptables are created. these rules capture the traffic coming to CLusterIP. and then forward 
+it to bakendpods. in this mode , kubeproxy chooses backend pod random for load balancing.
+
+Container Runtime:
+-- Container runtime runs on all the nodes in the Kubernetes cluster. It is responsible for pulling images from container registries, running containers, allocating and 
+isolating resources for containers, and managing the entire lifecycle of a container on a host.
+
+**Kubeconfig file:
+--it is crucial for setting up authenctication for ci/cd systems and providing cluster access to developers.it is a yaml file stores info and cred for connecting to kubernetes cluster. used by kubectl and other client services to authenticate with cluster and 
+ use the clusters resources.Kubeconfig file can be used to store information for multiple clusters and users, allowing users to switch between different clusters and contexts easily. 
+It is an important tool for managing access to and interacting with Kubernetes clusters.
+-- is a YAML file with all the Kubernetes cluster details, certificates, and secret tokens to authenticate the cluster.
+--When you use kubectl, it uses the information in the kubeconfig file to connect to the kubernetes cluster API. The default location of the Kubeconfig file
+ is $HOME/.kube/config.
+--ou can use the Kubeconfig in different ways and each way has its own precedence. Here is the precedence in order.kubectl contexts
+:kubectl with kubeconfig file overrides all other configs. Environmental variable:  KUBECONFIG env overides current context.
+command-line-reference; current context has least precedence.
+
+--Working: by defualt kubectl looks for kubeconfig file in home/.kube/, there might be lot of clusters/contexts.
+kubectl config get-contexts -o=name, set to current context = kubectl config use-context my-dev-cluster, validate the cluster 
+connectivity by kubectl get nodes, you can pass it as env variable like export KUBECONFIG=path to kubeconfig file. 
+or you can pass it as file to-> kubectl get nodes --kubeconfig= path 
+
+NETWORKING
+-- container to container uses IPC, pod to pod uses calico, flannerl...etc , node to node uses physical connection.
+
+EKS Project:
+
+--control plane (master node)- api server, etcd, shceduler, controller, cloud controller - data plane(worker node)-- kubeproxy, contianer runtime,kubelet, - we need to create all these one master
+and worker . we need to isntall all these and also cni plugin , dns ..etc and establish connection which is error prone and extra work.
+-- we can use KOPS for this like we can provide vpc and kops will create 3 master node and 3 worker node, aafter some time 1 master node went down, certificaate exp, api server is down,
+etcd is crashed , shedular not responding....etc, Kops can create the both planes but these errors we need to handle , this is about 1 cluster , what if you ahve 100's of clusters, 
+-- EKS is managed control plane but not data plane . it helps to establish the worker node and master node connection. we can use ec2 or fargate( serveless for running containers ),similar
+to lamda but this has limited 
+--we have 2048 app, we want to install it in pod, there are 3 services ->clusterIP: if you add this service to pod, then whole cluster can access it(any where from master or worked nodes
+ , Nodeport: lets say , we are using ec2 for master andworker nodes, then peple who are having access to these instaces , can access pod using those instance ip address, generally
+ eks will be in a vpc and applciation will deployed in private subnet, then peopel who have access to this private subnet can access it. 
+Load balancer: end user can access using this service. people outside of subnets and vpc should acess. LB is constly so we can go with ingress. 
+--ingress: if we create ingress.yml and run it with kubectl , nothing will happen, there should be a ingress controller , which uses this yaml and creates a alb .devops engineer along with 
+pod, service , also creates ingress for every pod, . there will be ingress controller that will watch for all ingress files and it will configure alb. end user->LB(public subnet)->pod(private subnet)
+
+Project:
+-- kubectl, eksctl and aws cli  need to be installed. kubectl for interacting with cluster . eksctl is for creating cluster and manage cluster. Prefereef way is to create cluster from 
+eksctl instead of dashboard: eksctl create cluster --name demo-cluster --region us-east-1 --fargate
+-- it created cluster with default kubenertes version 1.25 , you cna see pods, deployments, daemonsets, configs, secrests, service account s, networking ..etc on dashboard.
+-- there is an option of fargate defualt in computing dashboard-> generally created fargates will be attached to defualt namepsace , if we want to change it then we need add new fargate profile
+-- we can attach any identity provider like okta ..etc
+-- we can now use kubectl to handle it , for this run aws eks update-kubeconfig --name demo-cluster --region us-east-1 . 
+-- create fargate profile -- eksctl create fargateprofile \ --clustername --region us-east --name alb-sample-app --namespace game-2048 ( we need to create this for fargate , here we 
+are allowing deployemnts into this namepspace but this will not create a namespace  )
+--kubectl create ns --name 2018
+-- kubectl create -f deplyment.yaml ( with 5 replicas ), then we create service for nodeport : selector in this should match the deployment 
+-- spec: in deplyemnt 
+     selector:
+	  matchLabel:
+	   name: game-2048 
+	 replicas: 5
+	 template
+	  metadat:
+	     label: 
+		   name: app-2048
+	  spec: 
+	   containers: 
+-- spec in service
+     seelctor:
+	   name: gaem2048
+-- tehn create an ingress to make app availble for end users: we are trying to route the traffic inside cluster, class name : alb , if someone trying to access lb, then class nane is alb
+that will read ingress controller and if it matches the rules then it will forward to service:,lb-> ingress-> service-> pod 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata: 
+   name: ingress-2048
+   namespace: game-2048
+   annotations: 
+     alb.ingress.kubernetes.io/scheme: internet-facing
+	 alb.ingress.kubernetes.io/target-type: ip
+spec: 
+ ingressClassName: alb 
+ rules: 
+   -http:
+      paths: /
+	  pathtype: prefix
+	  backend;
+	    service:
+		 name: service:2048
+		 port:
+		  numner;80
+-- kubectl get pods -n game-2048 -w, kubectl get svc -n game-2048 : service-2048 nodeport 10.100.246.199 80:30358/tcp -- using thise nodeport ip and port 30358- people inside aws can
+access the node
+-- kuebctl get ingress -n game-2048 -- ingress is created but there is no host and address - ingress controller -> ingress->alb-> configure the target frp ,port.		  
+--still we did not deployed the ingress controller , whiotu it ingress is waste . 
+-- for installing ingress controlle r, we need to install the IAM-Oidc connector -- to talk to aws resources , we need to integrate iam -oidc -- eksctl utils assoiciate-iam-oidc-provider
+--cluster demo-cluster --aprove 
+-- then we create IAM roles and policies and attach it to service account of pod. whenever pod is running, pod will ahve service account - eksctl create iamserviceaccount--cluster 
+--ns --name --role-name --attachpolicy --approve 
+**-- generaly like developers want to talk to rds then , they will create service account then they will ask us to create role nd policy and attach it to service account.
+--now lets proceed with creating alb controller , we will use helm chat : helm install aws-load-balancer-contoller eks/aws-l-b-c -n game02048 -- set clusterName=demo-cluster --set serviceA
+ccount.create=false --set serviceAccount.name=aws-l-b-c --set region=us-east --set vpc=vpcid
+--kubectl get deployemnt -n game-2038 aws-load-balancer-controller 
+-- asws-l-b-c will keep look for ingress and it will create load balancer accoringle 
+**-- ingress alb controller-->ingress resource -->service-->deployment-->namespace. ALB controller created the loadbalancer in order to function created IAM OIDC,created new policy attach policy 
+to that role in order to communicate with AWS services. Used helm to install and deploy ALB controller where finally verifying the deployment has created 2/2 pods and in ingress also
+ created lb Address where I successfully able to access game-2048 app. 
+-- once we install aws-l-b-c , it will create a load balancer by using ingress.yaml , we can see it in ec2->load balcners 
+
+Kubernetes Production System
+--miniqube, kinds, k3d, k3s -- these are development distribution. which cannot be used in prod. generally, linux is open source on 
+top of it people build/enhanced called as redhat linux, centos, ubuntu, amazon linux. kubernetes is also open source container orche platform,
+on top of it they built eks, openshift(redhat), tanju(vmware). they are just building customer exp/user exp.
+--installinng kubereneted in prod -- most used tool is kops(kubernetes operation) then kubeadm. you need to deal with upgrades, modification
+deletes and install called life cycle of kubernetes. 
+--create a bucket for storing objects for kops to store kubernetes configurations.
+-- kops create cluster --name=democlusters.k8s.local --state=s3://kops --zone --node-count=1 --node-size=t2.micro --master-size= --master-volume-size=1 --node-volume-size
+--aws route53 create-hosted-zone --namedev.ex.com --caller-reference 1 -- this will create a hosted domain in route53, if it is dev, test
+you dont need to do this just you can use k8s.local
+
+services:
+--clusterIP: application can be acceseed inside cluster only, Nodeport: it will allow your applciation to be accessed inside your organization 
+people who have access to node ip address, they can access. LB: applciation can be accessible from external world
+**How a POD gets IP
+-- kube controller assign the node with a podcidr, pods on node are assigned an ip address from subnet value in podcidr, 

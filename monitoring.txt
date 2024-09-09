@@ -1,0 +1,160 @@
+
+MONITORING & OBSERVABILITY 
+--we have used combination of cloudwatch adn cloud trail  for logging and monitoring across cloud. cloud watch rpovides metrics for cpu, 
+memory , disk i/O and other system level performance indicators,while cloudtrail tracks user activity and api calls for security auditing and governce.
+--we integrated Datadog as our central monitoring platform. This integration allowed us to collect, visualize, and analyze logs and 
+metrics across our distributed systems. We created customized dashboards within Datadog to track key performance indicators (KPIs) 
+like response times, error rates, and system resource usage.
+--We also implemented alerting through OpsGenie, which was integrated with Datadog to send immediate notifications when critical 
+thresholds—such as high CPU utilization or memory usage—were breached.
+--we used Uptime monitoring to ensure the availability of our web services. Uptime works by continuously sending HTTP requests to our 
+website at regular intervals from multiple global locations. It tracks whether the site responds successfully 200and monitors response 
+times. If a site fails to respond or returns an error 500, we are alerted immediately through OpsGenie, ensuring quick incident resolution.
+
+
+INCIDENT RESPONSE
+
+--One of the major incidents I managed was a production outage that lasted for about 45 minutes, severely affecting our customer-facing 
+application. Users were experiencing slow response times, and some services were intermittently unavailable.
+-- one day when i was in on call , I recieved an alert from opsgenie that there was abnormal usage of cpu for some of the kubernetes cluster
+. I logged in and checked the data dog dashboard and i can see that one of the microservice is consuming high of cpu. 
+-- we did deep analysis using cloudwatch logs , we found that this microservice is making execcise api calls to third party. using datadog
+we analyzed the latency , error rates , responce times. 
+-- we checked other services health as well since this is an distributed system,. 
+--root caluse was identified as misconfigured api rate limit. this service was making more outbound api requests than third party app can handle
+leading to timeout and retries. this is overloading the kubernetes nodes. 
+. i further checked the cloud watch logs , where i can see that there was an issue with one of the microservice , which is 
+sending api calls to third party app. this microservice was sending limitless api calls to third, which is rejecting these requests becz of timeout. further it was resendind the requests becz of 
+ timeouts.
+--for temporary resolution , we can scaleup the pods to reduce the burden on that node and ask load balancer to divert the traffic. this 
+helped to work on core issue which was not affecting the other services.
+--after identifieyting the hotfix , developers changed the code in api cofniguration to add api rate limit and we deployed it using 
+ci/cd using jenkins and kubernetes.
+--we cosley monitored the systems performance using datadog to ensure the cpu and memory back dropped to normal levels. we communicated to 
+all stakel=ho,ders and buiness users on our progress. 
+
+POST Mortem -ROOT CAUSE ANALSYS.
+--we conducted incident review meeting with all the people wjo are involved in this applciation , we talked about the rca and also 
+preventive steps to be taken for not to occure this issue again.
+--we documented minute by minute timeline of incident like when alert was triggered, when the oncall team responded, what actions are taken 
+and what are the results, how long it took to restore. 
+--we conducted root cause analysis , we used 5 why methodologies like why the issue happended, why api misconfigured , why api requested
+execcise calls, why service failed ..etc . we also took some preventive measures and proactive meassures like implementeing autoscalling based on cpu
+and memory. 
+--we have documented evertyhing and we also concluded that we need to conduct some drills regarding these type of issues like how to handle
+
+DISASTER RECOVERY 
+--At my current company, we have a comprehensive disaster recovery plan to ensure the availability and integrity of our systems in the
+ event of a disruption. The plan consists of several key components:
+--Risk Assessment and Business Impact Analysis (BIA):We regularly conduct risk assessments to identify potential vulnerabilities, such 
+as hardware failures, natural disasters, or cyberattacks. Our business impact analysis helps determine which services are most 
+critical to our operations, setting clear Recovery Time Objectives (RTO) and Recovery Point Objectives (RPO).
+--Data Backup and Replication: we take regular snapshots of critical data being stored both on-premise and in the cloud. For key 
+databases, we use real-time replication to ensure that no more than a few minutes' worth of data is lost in the event of a failure (aligning with our RPO).
+We rely on cloud services like AWS S3 and RDS Multi-AZ for data redundancy, which automatically replicates data across availabilityzones.
+--High Availability and Redundancy:We have implemented a multi-region failover strategy using cloud infrastructure. This ensures that 
+if an entire region goes down, traffic is automatically redirected to healthy regions with minimal downtime (meeting our RTO).
+Auto-scaling and load balancing are also in place to handle any spikes in traffic or failover scenarios.
+
+--Data Backup and Replication:
+Our backup strategy is designed to be highly resilient and ensure minimal data loss. Here’s how it works in detail:
+
+--Backup Frequency:
+We take regular automated snapshots of our critical data, typically on an hourly or daily basis, depending on the data sensitivity and 
+business needs.For more transactional or critical systems, such as databases, we implement real-time replication to ensure data changes
+ are continuously synced across systems.
+ 
+On-Premise and Cloud Backup:
+We follow the 3-2-1 backup strategy, where we maintain three copies of data: the original production data, a local backup (on-premise), and an
+ off-site backup in the cloud.On-premise backups are stored on dedicated storage arrays with redundancy to protect against hardware 
+ failures.In the cloud, we rely on AWS S3 for object storage, which provides 11 nines (99.999999999%) of data durability. AWS S3 is also set up with versioning and lifecycle policies to manage and protect data efficiently.
+Real-Time Replication:
+
+For mission-critical databases, we use AWS RDS with Multi-AZ (Availability Zones) deployments. This means that the database 
+automatically replicates data to a standby instance in another availability zone in real-time. This not only ensures high availability 
+but also protects against hardware failures or AZ-level disruptions.In the event of a failure in the primary instance, AWS RDS performs 
+an automatic failover to the standby instance in the alternate AZ, ensuring minimal disruption and meeting our Recovery Point 
+Objective (RPO) of near-zero data loss.
+
+Durable and Immutable Backups:
+For some workloads, we also implement immutable backups that cannot be deleted or altered. These are particularly useful for compliance purposes and to protect against ransomware or insider threats.
+AWS Glacier is used for long-term backup retention, ensuring we can restore historical data as needed, while keeping costs low.
+High Availability and Redundancy:
+To maintain service uptime and meet our Recovery Time Objective (RTO) during disasters or failures, we’ve set up a robust multi-region failover strategy using cloud infrastructure.
+
+Multi-AZ and Multi-Region Architecture:
+Our infrastructure is deployed across multiple AWS Availability Zones (AZs) within a single region, providing redundancy in case of 
+localized failures, such as hardware or network issues within one AZ.We also extend this architecture to span multiple AWS regions. 
+By leveraging a multi-region setup, we ensure that even if an entire region (like US-East-1) becomes unavailable due to a large-scale 
+outage, traffic can be seamlessly rerouted to another healthy region (e.g., US-West-2 or EU-Central-1).
+
+Traffic Failover Mechanisms:
+We use AWS Route 53 for DNS-based routing. With health checks configured, Route 53 can detect failures in one region and automatically reroute traffic to another region, ensuring minimal downtime.
+The failover between regions is done using latency-based routing or geo-redundant routing, depending on the scenario. This ensures that end-users experience little to no disruption in service.
+Load Balancing for Redundancy:
+
+Within each region, we utilize Elastic Load Balancers (ELBs) or Application Load Balancers (ALBs) to distribute incoming traffic across multiple instances (EC2 or containers running in ECS/EKS). This protects against instance-level failures and ensures that our microservices are always available.
+In the event that one microservice or node fails, the load balancer automatically redirects traffic to healthy instances, ensuring continuity without manual intervention.
+Database and Application Failover:
+RDS Multi-AZ provides automated database failover, while Amazon Aurora can be configured for cross-region replication, allowing read traffic to be distributed across multiple regions and providing instant failover for write traffic in case of regional failures.
+For stateless applications running in Kubernetes clusters, we use cluster auto-scaling and self-healing mechanisms that automatically restart failed pods or move workloads to healthy nodes.
+Testing Disaster Recovery:
+
+We regularly test our Disaster Recovery (DR) strategy through simulated failover drills to ensure readiness. This involves intentionally failing a region or service and validating that our infrastructure can recover within the specified RTO.
+These tests help identify any gaps in the process, such as latency issues during the failover or configurations that need adjustment to meet uptime goals.
+
+
+BLUEGREEN - CANARY 
+
+Blue-Green Deployment and Canary Deployment are both strategies used to deploy new versions of applications with minimal risk and 
+downtime. Here’s a detailed explanation of each:
+
+Blue-Green Deployment
+Blue-Green Deployment is a deployment strategy where two identical environments, known as the "blue" and "green" environments, are used
+ to ensure smooth releases and quick rollbacks.
+
+How It Works:
+
+Setup: You have two environments that are exact replicas of each other. Let's call them "blue" and "green". Only one environment is 
+live and serving production traffic at any time. The other environment is idle or used for testing.
+Deployment: When a new version of the application is ready, it is deployed to the inactive environment (e.g., "green"). The "blue" 
+environment continues to serve all user traffic during this time.
+Testing: You perform comprehensive testing on the "green" environment. This includes functional testing, performance testing, and 
+validation to ensure that the new version works as expected.
+Switch Traffic: Once you’re confident that the "green" environment is stable, you switch the traffic from the "blue" environment to
+ the "green" environment. This switch is usually handled by updating the load balancer configuration or DNS records.
+Rollback: If any issues are discovered after the switch, you can quickly roll back to the "blue" environment by redirecting traffic
+ back. This provides a quick and safe way to revert to the previous version.
+
+Advantages:
+Minimized Downtime: Switching traffic between environments is instantaneous.
+Easy Rollback: You can quickly revert to the old version if any issues arise.
+Testing in Production: You can test the new version in a production-like environment.
+Disadvantages:
+Resource Intensive: Maintaining two environments can be costly and resource-intensive.
+Complexity: Managing two environments and ensuring they are in sync can be complex.
+
+
+Canary Deployment
+Canary Deployment is a gradual release strategy where a new version of an application is rolled out to a small subset of users before a
+ full-scale deployment.
+
+How It Works:
+
+Initial Deployment: You deploy the new version (canary) to a small percentage of users or servers while the old version continues to 
+serve the rest of the traffic.
+Monitoring: You closely monitor the performance, stability, and user feedback of the canary release. This includes tracking metrics 
+like error rates, response times, and user experience.
+Gradual Rollout: If the canary deployment is successful and no significant issues are detected, you gradually increase the percentage 
+of traffic routed to the new version. This can be done in phases (e.g., 10%, 25%, 50%, 100%).
+Full Deployment: Once the new version has been validated across all canary phases, you fully deploy it to all users. If issues are 
+detected during the canary phases, you can halt the rollout and roll back to the previous version.
+Rollback: If a critical issue is detected during the canary phase, you can stop the deployment and revert to the previous version without affecting the majority of users.
+
+Advantages:
+Reduced Risk: Problems are detected early with a smaller group of users, minimizing the impact.
+Gradual Rollout: Allows for a phased rollout and user feedback collection.
+Real User Testing: Provides insights from real users rather than just staging tests.
+Disadvantages:
+Complexity: Requires sophisticated traffic management and monitoring tools.
+Delayed Full Release: Full rollout may take longer, which can delay the availability of new features to all users.

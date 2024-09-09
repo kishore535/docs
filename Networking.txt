@@ -1,0 +1,133 @@
+--OSI Model 
+--open systems communication is a framework used to understand functions of a networking system. it divides network communication into 7 diff layers, provides standarized way for network troubleshoot.
+- application -first level of comm,provides network services to user application, includes protocols like http,ftp,smtp,dns,telnet,ssh
+--presentation- encrpyt the data,handles compression and format conversion eg; ssl,jpeg,mpeg
+--session- manages communication session between applications, handles session establishment , maintenance and termination eg: RPC, NFS.
+--tranport- handles flow control and error control, congestion control , uses tcp and udp,.ensures data delivery bet end systems
+ network- brakes data into packets,handles logical addressing, eg: ip, icmp.routes packets across networks
+ datalink- manages data betw nodes, brakes packets into data frames, handles error detection, correction and flow control. defines physical adress(mac address) eg: eternet
+ physical - brakes into bits and tranfers using cable, switch.responsible for data representation(voltage levels).
+
+--TCP/IP 
+-- its another framework , its simplified version of OSI model. specifically designed for internet communication.. its foundation 
+for most of internet communication. simplicity: needs few layers comapred to OSI -easier to implement, efficiency: directly address needs of internet 
+it consists of 4 layers: applciation: interacts with user app,eg; http, ftp...transport: reliable end to end communication(TCP) or connectionless
+communication(UDP), internet layer: handles packet routing and adddressing using ip, network access layer: handles pyhsical transmission of layer
+
+TCP -UDP
+--TCP and UDP are 2 different protocols at same layer called transport. TCP is reliable and connection oriented but UDP is opposite
+--tcp is relaible and gurnacteess the deliver of data in order and without errors, uses flow control and congestion control. Used for 
+web application, ftp, smtp, email...etc. it uses 3 way handshake mecahnish for connection,involves exchanges of 3 packets. system-a sends a syn(syncronizs) packet to 
+system-b for establushing connection, b receilves and sends SYS-ACK to sys-a and sys-a receives and sends ACK to b
+--UDP--connectionless, faster then tcp but dont guranctee packet delivery used in streaming applciations, online gaming and dns.
+--eg: for human-readable information to be transferred over a network from one device to another, the data must travel down the seven 
+layers of the OSI Model on the sending device and then travel up the seven layers on the receiving end.
+
+For example: Mr. Cooper wants to send Ms. Palmer an email. Mr. Cooper composes his message in an email application on his laptop and 
+then hits ‘send’. His email application will pass his email message over to the application layer, which will pick a protocol (SMTP) and 
+pass the data along to the presentation layer. The presentation layer will then compress the data and then it will hit the session layer,
+ which will initialize the communication session.The data will then hit the sender’s transportation layer where it will be segmented, then those segments will be broken up into 
+packets at the network layer, which will be broken down even further into frames at the data link layer. The data link layer will then 
+deliver those frames to the physical layer, which will convert the data into a bitstream of 1s and 0s and send it through a physical 
+medium, such as a cable
+
+ 
+IP ADDRESS
+--ipv4: it uses 32 bit adress structure which is limited to 4.3 billion unique address. this is becoming insufficient due large use of networking.
+ipv4 is still widely deployed over the internet, NAT is used to overcomme addressshortage but complicates network management and security.
+its in dotted decimal representation( 192.20.40.113). it is statefull.
+--ipv6: it uses 128bits adress structure represented in hexadecimal notation. this is limitless and secured with ipsec , better support for 
+video conferencing. simpilifies network setup by allowing devices to automatically obtain ip address. Ipv6 does not need nat router becz ther is
+no need of translation private ip to public ip or vice versa. Ipv6 does not need arp protocol becz mac address itself part of ipv6
+
+--why we need both: trasition period for ipv4 to ipv6 becuase most of infra is deployed on ipv4. many devices and networks support ipv4 nd ipv6 both.
+--ipv6 is future of network but at present we need both ipv4 and ipv6 .
+--SUBNETING: divinding the networks into smaller subnets. this will provide isolation and efficient ip adresss alcoation and improved network management
+key concepts of this: subnet mask: binary mask that defines network portion and host portion of ip address, network address: first address 
+in a subnet , broadcast address: last address in a subnet, used to send packets to all devices on subnet, host address: address avaible for devices within subnet
+--eg: network with ipadress 192.168.1.0/24: subnet mask is 255.255.255.0, meaning first 24 bit represent network address and last 8 host protion
+network address is 192.168.1.0, broadcast address: 192.168.1.255, there are 254 possible host address. 
+--CIDR: its a method to represent the ip address. classless inter domain routing. 192.168.1.0/24 = 32-24=8 , 2 power 8-2 =256-2 , we get 254
+ip address in this . 10.0.0.0/16= 32-16=16, 2 power 16 -2 = 65,000, we are subtracting network address and broadcast address. usable 
+host address are 254 and 65000.
+
+**Network Interface: interface is noting but connection point where they intereact and communicate, there 2 types of network interfaces
+,wire(ethernet)and wireless(wifi). a hardware or softare component that connects a computer to network 
+
+NETWORK DEVICES:
+-- switch connects devices using mac address within LAN.forwards packets based on mac address 
+--Router: connects multple devices and send the packet based on ip address. supports routing protocols
+--Firwalls: these are used to restric the incloming or outgoing traffic. protects network from unauthorized access.
+--load balancers: distributes the incloming traffic across servers.
+--Bridge: connects 2 network segments and filtering traffic based on mac address
+
+NETWORK SECURITY:
+--statefull firewalls: it keeps track/record of all the network connections.
+--applciation firewall: firlter trafic based on applciation data
+--next-gen-firewall: combine traditional firewall with additional features like intrution
+--compnents: fireqall rules, nat(network address translatin), ACL's(access control lists)
+
+--Intrution detection and prevention: IDS detects malicious/anomalies/potential threats activity and generates alerts , IPS: detects and prevents malicoius activity.
+--additional measures: network segmentsion(isolation), acl's restrict network access.
+
+NETWORK MONITORING:
+--perfomance: monitoring key metrics like latency, packet loss,throughput and jitter.
+--devices: switches, routers, bridges, firewalls..etc
+--availnbility and security and also capacity planning for predicted traffic.
+--tools: nagios: open sousrce widely used for network monitoring and alerting
+--zabbix: open source mainly used for scalability and flexibility
+--monitoring metrics: cpu utilization on network devices, disk usage on network devices, packetloss:identify network congestion or failures 
+latency: measures response time between devices, jitter: network stability and quality of service, network interface card: in/out traffic
+
+TROUBLESHOOTING
+--No network connection
+--check physical connections like cables, verify network interface convifuration using ip addr or ifconfig. check DNS resoultion using 
+ping with ip address and nslookup or dig. verify routing route  or ip route command to check default routing table and gateway.inspect firewll
+rules:check any firewall blocking the traffic. 
+
+--slowness of networking 
+--monitor network traffic using tcpdump or iftop, check cpu and memory utilization, cehck network congestion using traceroute or ping.
+
+--applciation specific: check application logs, then check network configuration, then test network connectivity using telnet or netcat  to 
+test port connectiity then check firewall rules.
+
+NETWORK COMMANDS:
+--ping --checks the connection
+--traceroute - shows packets path to take to reach destination
+--nslookup: resolves dns names with ip address
+--dig: alternative to nslookup
+ip addr or ifconfig: it shows network interface configuration
+--route; displays the routing table
+--netstat--displays network connections , routing table and interface statistics
+tcpdump: used for capturing the network logs and analysing it .
+sar: used for cpu info, memory, i/o, memory,swap
+nproc: to check no of processors in cpu on system.
+
+--SSL/TLS (Secure Socket layer/ Transport Layer Security
+
+What is an SSL certificate?
+An SSL certificate is a file installed on a website's origin server. It's simply a data file containing the public key and the 
+identity of the website owner, along with other information. Without an SSL certificate, a website's traffic can't be encrypted with TLS.
+
+TLS - During the TLS handshake, the two parties generate session keys, and the session keys encrypt and decrypt all communications after
+ the TLS handshake. A TLS handshake uses something called asymmetric encryption, meaning that two different keys are used on the two ends
+ of the conversation. This is possible because of a technique called public key cryptography.
+ 
+-- HTTP vs HTTPS
+The S in "HTTPS" stands for "secure." HTTPS is just HTTP with SSL/TLS. A website with an HTTPS address has a legitimate SSL certificate 
+issued by a certificate authority, and traffic to and from that website is authenticated and encrypted with the SSL/TLS protocol.
+
+-- Forward Proxy vs Reverse proxy 
+Fp- It is making the request on behalf of the client. So, the server will return the response to the proxy, and the proxy will forward the response to the client. In fact, 
+the server will never "learn" who the client was (the client's IP address); 
+RP- It forwards the request to the server, receives the response and then returns the response to the client. In this case, the client will never "learn" who was the actual server 
+FP- Acting on behalf of a requestor, RP-Acting on behalf of service/content producer.
+
+--PORTS
+--ssh uses 22, ftp uses 21 and 20, telnet uses 23, http uses 80, smtp uses 25,dns 53,https 443.these are all tcp ports only.
+
+--NFS
+--network file system: these are used to share the local hard drives among the servers which are nfs compatible.
+
+
+topics to study: DNS, Firewall config, 

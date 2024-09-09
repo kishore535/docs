@@ -1,0 +1,54 @@
+BLUEGREEN - CANARY 
+
+Blue-Green Deployment and Canary Deployment are both strategies used to deploy new versions of applications with minimal risk and 
+downtime. Here’s a detailed explanation of each:
+
+Blue-Green Deployment
+Blue-Green Deployment is a deployment strategy where two identical environments, known as the "blue" and "green" environments, are used
+ to ensure smooth releases and quick rollbacks.
+
+How It Works:
+
+Setup: You have two environments that are exact replicas of each other. Let's call them "blue" and "green". Only one environment is 
+live and serving production traffic at any time. The other environment is idle or used for testing.
+Deployment: When a new version of the application is ready, it is deployed to the inactive environment (e.g., "green"). The "blue" 
+environment continues to serve all user traffic during this time.
+Testing: You perform comprehensive testing on the "green" environment. This includes functional testing, performance testing, and 
+validation to ensure that the new version works as expected.
+Switch Traffic: Once you’re confident that the "green" environment is stable, you switch the traffic from the "blue" environment to
+ the "green" environment. This switch is usually handled by updating the load balancer configuration or DNS records.
+Rollback: If any issues are discovered after the switch, you can quickly roll back to the "blue" environment by redirecting traffic
+ back. This provides a quick and safe way to revert to the previous version.
+
+Advantages:
+Minimized Downtime: Switching traffic between environments is instantaneous.
+Easy Rollback: You can quickly revert to the old version if any issues arise.
+Testing in Production: You can test the new version in a production-like environment.
+Disadvantages:
+Resource Intensive: Maintaining two environments can be costly and resource-intensive.
+Complexity: Managing two environments and ensuring they are in sync can be complex.
+
+
+Canary Deployment
+Canary Deployment is a gradual release strategy where a new version of an application is rolled out to a small subset of users before a
+ full-scale deployment.
+
+How It Works:
+
+Initial Deployment: You deploy the new version (canary) to a small percentage of users or servers while the old version continues to 
+serve the rest of the traffic.
+Monitoring: You closely monitor the performance, stability, and user feedback of the canary release. This includes tracking metrics 
+like error rates, response times, and user experience.
+Gradual Rollout: If the canary deployment is successful and no significant issues are detected, you gradually increase the percentage 
+of traffic routed to the new version. This can be done in phases (e.g., 10%, 25%, 50%, 100%).
+Full Deployment: Once the new version has been validated across all canary phases, you fully deploy it to all users. If issues are 
+detected during the canary phases, you can halt the rollout and roll back to the previous version.
+Rollback: If a critical issue is detected during the canary phase, you can stop the deployment and revert to the previous version without affecting the majority of users.
+
+Advantages:
+Reduced Risk: Problems are detected early with a smaller group of users, minimizing the impact.
+Gradual Rollout: Allows for a phased rollout and user feedback collection.
+Real User Testing: Provides insights from real users rather than just staging tests.
+Disadvantages:
+Complexity: Requires sophisticated traffic management and monitoring tools.
+Delayed Full Release: Full rollout may take longer, which can delay the availability of new features to all users.

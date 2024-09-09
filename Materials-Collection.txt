@@ -1,0 +1,6 @@
+
+-- https://drive.google.com/drive/folders/1TgvcEsgL6hnKuRzJXKsG_XEem_9kTwkX -- aws videos with test --in telugu 
+
+--https://registry.terraform.io/search/modules?namespace=terraform-aws-modules&q=aws -- terraform code , best code guding for aws resource 
+
+--

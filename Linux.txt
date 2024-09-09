@@ -1,0 +1,216 @@
+
+-- Linux Directories 
+- /bin
+Contains binaries essential for the system to boot and perform basic functions.
+these are just cPrograms like who, systemctl, whoiam, bash, login, etc reside in here. Do not modify anything in it.
+-/boot
+Contains the core assets needed to boot the system, ie, Bootloader, Linux Kernel Image, etc. Do not modify anything in it.
+- /proc
+Virtual filesystem maintained by the Kernel in order to run all processes.
+Don’t change anything in this dir.
+But you can look around. Every process has a corresponding directory inside it (named after process ID) where you get lots of information about it.
+ -/var
+Contains files that are of variable size/content.
+Eg- All log files are stored inside /var/log by convention.
+Eg- Web Servers commonly store frontend assets in /var/www/html.
+- /mnt
+By convention, all devices manually mounted on to the system are mounted inside this directory.
+- /media
+Used for automatic mounting of devices such as USB drive.
+- /dev
+Contains files for all devices mounted on to your system.
+Eg- When you mount a new EBS volume to your linux-based EC2 instance, you’d usually see the device as "/dev/sda1".
+Eg- You may have seen Bash commands that send output to "/dev/null" to simply drop it.
+- /etc
+Contains System-wide configurations & Scripts that run during boot/initialization. All files are text-only so they’re human readable.
+- /tmp
+All temporary files are stored in this directory. It generally gets cleaned out when you reboot your system.
+Do not store any important data in /tmp. You will likely lose it.
+- /lib
+Contains all the libraries required by programs in /bin.
+A variation, /usr/lib, may contain libraries for user-space programs
+- /root
+Home directory of the root user in Linux. As a normal user, you may not have access to this directory at all.
+- /usr
+Contains all programs directly used by Linux users. Try exploring /usr/bin. What do you see?
+- /home
+Contains a home folder for each regular user on the system. If you are “ben”, then there will be a “/home/ben” directory on the system that you control.
+But you may or may not be able to access other users' home directories depending on your permissions.
+
+
+-- DNS 
+
+DNS plays a pivotal role in the functioning of the internet and also enhances its security. But how exactly does DNS work? Let's break it down with an example!
+
+🎯Initiating the Query: When you enter a domain name like "www.cloudairy.com" into your web browser, your computer dispatches a DNS query to a DNS resolver.
+
+🎯Resolving the Query: The DNS resolver proceeds to make inquiries with a sequence of DNS servers, commencing with the root servers, in search of the IP address associated with the given domain name.
+
+🎯Cache Check: The resolver first checks its local cache to ascertain if it already possesses the IP address for the requested domain. If it discovers a match, the process concludes, and the found IP address is utilized.
+
+🎯Recursive Query: If the resolver doesn't have the IP address in its cache, it embarks on a recursive query to locate the IP address. This query is transmitted to a DNS root server.
+
+🎯Root Servers: These root servers stand at the zenith of the DNS hierarchy. They contain the IP addresses of the top-level domain (TLD) servers, such as .com, .org, and .net. These TLD servers, in turn, guide the resolver to the nameservers for specific domains.
+
+🎯Nameservers: Nameservers serve as repositories for the IP addresses of all the hosts within a domain.
+
+🎯Final Resolution: When the resolver acquires the IP address from the nameserver, it relays it back to your computer. Your computer then connects to the designated host.
+
+In DNS, resource records (RRs) are vital data structures stored in DNS servers. While there are various types of RRs, some of the most common ones include A records (storing IPv4 addresses), AAAA records (storing IPv6 addresses), MX records (storing mail server information), and CNAME records (storing aliases).
+
+
+-- LINUX FLOW 
+
+--whenever a power button clicked -> BIOS/UEFI (performs POST to check basic hardware functionality like memory and core component
+(searches for bootable device-harddisk,usb) -> Boot loader -eg;systemd,grub(job is to locate kernel) -> Kernel loading( boot loader 
+will load kernel image from boot partition into memory - kernel loads core system funtionalities like memory manag, device drivers, process management)
+-> mounting root file system ( kernel identifies and mounts real root file system from storage- root file system consists of all core 
+system programs and librries essential) -> init process (kernel executes init process(/sbin/init) father of all process - init process reads 
+configuration scripts from /etc to start essential system services and login prompts-> login and user enviroment (once init process 
+rans , it prompts with username and pwd, once authenticated it presents user environment like 
+
+COMPONENTS
+-- Kernel consists of process management(executing, starting/stopping, context swtiching, threads), memory management( allocating/deallocating
+,swapping), device drivers ( used as interfaces for converting hardware devices commands to software, file system management, systemcalls
+-- Hardware consists of CPU( kernel executes all proccess here), memory -RAM( temporary memory to store commands for faster execution), I/O devices(
+keyboards, mouses, printers), storage(hard disk, solid state drives for permanent storage).
+--software consists of user applications(programs and tools user interacts directly such as web, media players), daemons, shell, libraries.
+--dmesg -- it prints all kernel relted logs and hardware device logs, boot level messages 
+
+OTHER COMPONENTS
+--CPU - its hardware unit and brain of system, main job is to execute the instructions and perform calculations sent by software
+--RAM - its a temporary storage system, stores all the commands that are going to be executed by cpu.
+--KERNEL -- main job is to handle system resources including cpu. its handles the memory allocation and de-allocation, 
+it handles process creation,execution and termination.it handles communication with devices. it acts as mediator between hardwre and software components.
+--cache - its is also a temporary storage systems subset of ram , its stores the recently executed commands for faster retrieval for cpu. mainly to improve system performance
+--buffer --subset of RAM , used as temporary storage for smmothout data flow between components. its purpose is diff from cache.
+[root@tsd-jenkins-be-vm ~]# free -g
+              total        used        free      shared  buff/cache   available
+Mem:              5           1           1           0           2           3
+
+DAEMONS
+-- these run in the background and used in different services like netwoeking, scheduling, systemcalls,logging ...etc. there is no user 
+interaction for these daemons. basically these will load during boot process and keeps on running.
+-- daemons in system calls -- init/systemd, cron, journald(manages logs)...networking- sshd, httpd,ftpd,named..etc, db - mysqld,postgre.
+-- daemons are started using systemctl if we are using init/systemd process. service if we are using sysvinit systems. eg: service sshd staet
+, service journald start, service httpd start . systemctl start sshd.
+--daemons configurations ar located in /etc, and logs located at /var/log 
+
+LINUX commands 
+-- find . -name cars  --find searches for a file in overall directory hierarchy. it is slow becz dynamically it need to search.
+-- grep "error" file1 -- grep searches for string or pattern in a file content.
+--locate cars -- locate searches for a file/direc in prebuilt database located at /var/lib/mlocate/mlocate.db. this db updates periodically 
+about all the files on the server. so it is very fast.
+-- cat file1 -- displays all the content in files 
+-- more file1 -- displays content in single screen 
+-- less file1 -- displays content using backward/forward navigation 
+--head file1 -- disply first 10 lines of content 
+--tail file1 -- display last 10 lines of content   
+-- nano file1 -- open file in nano editor 
+-- vi /vim file1 -- open file in vim editor 
+-- sort file1 -- sort the contents and display 
+-- uniq file1 -- display only unique things 
+-- chmod 755 file1 -- change the file premissions 
+-- chown -R builds:devel file/dir -- change the owner and grp 
+--chgrp devel file -- change the group of a file/dir
+--useradd sai , userdel, groupadd, groupdel, usermod -aG newgrp newuser -- adding existing user to new grp 
+--id newuser , getent passwd srapolu(srapolu:x:85692:14:Rapolu, Sai Kishore Reddy:/home/srapolu:/bin/bash), getent group devel
+passwd -S sai -- command to check pass status, expire the pass or send warning to change pwd
+-- /etc/passwd, /etc/group -- all users and groups found here. /etc/shadow -- users with encrpted passwords found here 
+--ps aux -- list all process which are running .
+-- top -- display realtime statistics and running process 
+-- htop -- interactive process viewer ( requires installation)
+--kill pid- you can kill the process 
+--pkill httpd -- teminate all httpd process
+--killall httpd -- ""
+--nice -n 10 myscript.sh -- run a job with low prority 
+--renice 10 -p 1234 -- change the prority of running process with pid 1234:
+--jobs -- list current background jobs 
+--ifconfig -- displays the network interfaces and their connections
+--ip addr show -- display ip adress and network interfaces 
+--ping google.com -- check connectivity to remote host 
+--netstat -tuln  -- displays network connections, routing tables and interface statistics
+--ss -tuln -- display socket statistics
+--traceroute google.com -- trace the route packets take to a network host 
+--iptables -L -- disply current firewall rules .
+-- sudo systemctl status firewalld --check the status of firewalld 
+--nmcli -- display network manager status and connection details 
+--ssh username@ipaddress -- connect to remote host 
+--scp file username@ipadress:/path -- copy file to rremote server 
+--rsync -avz file1 user@hostname:/path/to/destination -- sync file/directories between local and remote directories 
+--crontab -e( -l ) -- to edit , list cronjobs for a particular user
+
+--FILE PERMISSIONS
+--r- read, w-write , x- execute. rwx-r-w-r --this means user has read,write,exe , group has read and write and other has only read
+-- thses are represented in octal , 0-7 , read -4, write -2, execute-1 
+--755 - readwriteexecute(4+2+1) for user , 4+1(read and ececute) for group , read and execute for others as well 
+--644 -- read+write (4+2) for user, read only for group , read only for others
+--600 -- read write for user , nothing for grp and pthers -- for private and public keys -- 
+--666 , 777,
+
+--SSH KEYS
+--ssh is a network protocal and crypthographic netowkr protocal used for to authenticate and login to remote server securely without using passwords.
+--ssh-keygen -t rsa -b 2048 -C "emial" -- -t is type of key rsa, -b number of bits in key , -C adds label to key 
+--ssh-copy-id user@ip -- copying public key to remote server 
+-- authporizedkeys -- file exists on server side, we need to copy the public key and it will be placed in authorized keys , so remote servers validates public key 
+against the authorized keys file and if exists it allows the connection.
+--known_hosts -- on client side , when we are done with copying public key to remote server and loging into it , client side , it will 
+add public key of remote server and hostname to known_hosts file , so that it can prevent attacks by conncecting to already lnown_hosts next time.
+--PROCESS -SSH KEYS 
+-- I generated keys on .113 server and then added public key to authorized_keys on .213 server. when I try to login from .113 , initially 
+.213 checks the puclic key against the authorized keys file and if present , then it intiaties the connection, then it generates a 
+session key and encrypts it with public key of .113. i send encrpted key to .113 and .113 will decrypt it with private key. it send the decrpted 
+message to .213. then .213 compares decrpted session key with original session key, if it matches then it establishes the connection.
+--question-- how will .213 sends encrpted string without any connection. ans: intially .113 establishes general connection to send 
+public to .213, so .213 uses same connection.
+--troubleshoot ssh : 1: I will check network connection using ping and  the ssh service status using service ssh status or systemctl 
+status ssh, 2> i will check whether the server acepting the port 22 conections or not. 3. then I will check config files /etc/ssh/ssh_config on both. 4. I will 
+check file perssions of .ssh dir and authorized keys. 5. then run it in verbose mode to get more details.
+-- public key - widely distributed , used for encrpting the data, anyone can use public key to encrpyt the data
+--private key- kept it as secrecy , used for decryption of data which is encrpted with public key, only owner can decrptythe data
+--these keys involves in key , generation, key distribution, encryption and decryption. it is used for security, authentication
+
+BOOK --07/19
+User Management
+
+-- super user(root ), normal user(sai,..), system user( ssh, ftp, postgre for postgredb-each service has its own user), network user(remote user like ldap), sudo user(normal users added to sudoers)
+-- useradd -u 600 -g 600 -G java -c "oracle user" -d /home/raju -s /bin/bash raju
+--.bach_profile, .bashrc, .bash_logout -- these are user environment files which runs during user login shells. for eg: .bash_history is called 
+when user types history command. .bash_profile can be used to define paths, env var, other commands specific to user.
+--there 2 groups, primary grp and secondary group, user belongs to more than one group called secondary.
+--etc/login.defs -- where we can change password policy - min 0- user can to change pwd, min 2- user can change pwd in 2 days, inactive 5- 
+after pwd expiry grace period of nother 5 days, warning -7 -- meand warning given to user 7 days before expiry.
+-- /etc/login.defs -- we can define everyhting related user, like enable home dir creation, mail dir, ..pwd policy for grp and user.
+--/etc/sudoers -- where we can configure privelleges for normal user. sudo useradd sai. sudo users command hostory are logged in /var/log/secure
+--change/create passwor of user-- chage -d 0 sai( this make change of pwd policy to 0). su - sai ( it will prompt to type pwd):
+--/bin/sh -- shell for unix, /bin/bash --shell for linux 
+
+Partitioning
+--partitioning means dividing hard drive into multiple logical drives.Every MBR(master boot record) disk can have 4 partitions, 3 primary partitions and 1 
+extended partition. linux diff types of disk will be identified with different naming conventions.
+--/dev/hda, /dev/hdb, /dev/hdc and diviended into /dev/hda1, /dev/hda2 -- these are IDE Drives(integrated drive electronics)
+--/dev/sda, /dev/sdb -- dividend into /dev/sda1, /dev/sda2 -- these are SATA,SCSI drives.
+--/dev/vda, /dev/vdb -- dividend into /dev/vda1, /dev/vda2 -- these are virtual drives.
+-- attaching a partition to directory under root is known as mounting. there are temporary mounting and permanent mounting.
+--/etc/mtab -stores info related to currently mounted file systems, /etc/fstab- keeps info about permanent mount points.we need add entry if we want to add permanent partition.
+--partitioning helps for easily oraginzing user data, swap space , and also helps in security by isolating ,so that if one partiotion 
+corrupts, it wont affect other partition and also backup and recover is easy.
+--swap partition:= a dedicated space used by the system as vitutal memory when physical ram if full
+--attributes of file is -> inode, filename , data block. inode numbers are objects to record info about file. 
+--fsidk diskname, mkdir /mnt/oracle-> mount /dev/sda1 /mnt/oracle -> vim /etc/fstab-> mounting a directory.
+-- logial volume managmeent - lets say , you linux disk is full and application requires more disk space, here partition wont 
+work then you need to back the data and delete the disk and attach a disk with more space and then restore the data. but to avoid this 
+there is concept called logical volume management. its combination of 2 or more physical disk in order to make a big logical disk.
+
+VOLUMES:
+-- physical storage: hard disk or ssd, or anytoher 
+--partitioning: dividing these pyhyical storage into multiple blocks 
+--physical volumes: pysical disks or partitions dedicated to logical volume manager : pvcreate /dev/sda
+--vloume group: collection multiple pysical volumes managed as single unit: vgcreate myvg /dev/sda
+--logical volumes: virtual disk created whithin volume group: benefits of you can easily resize(flexibiltiy)and remove logical volumes without : lvcreate -L 10gb -n mylv myvg
+affecting underlying data, efficiency :lvm allowa to combine multiple physical disks into single logical volume, optimizing disk space: mkfs.ext4 /dev/myvg/mylv
+--using above steps , we can increase the size of disk for an applciation : mount /dev/myvg/mylv /mnt/mylv .
+-- /mnt/mylv is one where files are accessble but actual data stores in /dev/myvg/mylv.
+--pvscan, vgscan, lvscan -- commads to check volumes on server , if /dev/mapper is present then more likely there is lvm.
+--RAID: redundant array of independent disks, it provides fault tolerance load balancuing using stripping, mirroring and parity concepts.
+

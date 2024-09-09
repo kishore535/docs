@@ -1,0 +1,57 @@
+-- Horizontal Vs Vertical Scalling
+
+HS-Scaling horizontally simply means adding more computers rather than upgrading the hardware of a single one.
+VS-  way to handle more traffic would be to upgrade the hardware the database is running on. This is called scaling vertically.
+
+--Distributed System
+-- distributed system in its most simplest definition is a group of computers working together as to appear as a single computer to the end-user. These machines have a shared state, 
+operate concurrently and can fail independently without affecting the whole system’s uptime.
+
+
+DNS resolution
+2) Caching
+3) Scaling and reliability
+4) Security
+5) Database
+6) Monitoring
+7) Deployments
+8) Infra setup
+
+
+--https://docs.google.com/spreadsheets/d/1O_qwBKEESxXos-4auFjiU56RemuF2Fic--Mm7ABPvHA/edit?pli=1#gid=2109290712
+
+
+DISASTER Recovery in Cloud 
+
+--Data Replication: Safeguarding Your Critical Information
+AWS offers a variety of data replication services, such as AWS Storage Gateway, Amazon S3, and AWS DataSync, to ensure that your data is consistently replicated to a secondary location. 
+--Compute Resources: Powering Your Recovery Efforts
+In the event of a disaster, AWS provides a wide range of compute resources, such as Amazon EC2 instances, to quickly provision and deploy your applications and services in the secondary location. 
+--Traffic Routing: Seamlessly Transitioning to Recovery
+Amazon Route 53, AWS's scalable Domain Name System (DNS) web service, plays a pivotal role in routing traffic to your secondary location during a disaster. 
+--Automated Scaling: Adapting to Fluctuating Demands
+AWS Auto Scaling allows your applications to automatically adjust their capacity based on demand. It can ensure that your secondary environment can handle increased workloads without compromising performance.
+--Load Balancing: Distributing Traffic for Optimal Performance
+Elastic Load Balancing (ELB) helps distribute incoming application traffic across multiple targets, ensuring high availability and fault tolerance. 
+--Recovery Time Objectives (RTO) and Recovery Point Objectives (RPO): Tailoring Your Recovery Plan
+AWS provides tools to set RTO and RPO targets for your applications. These targets define the acceptable downtime and data loss in a disaster scenario. 
+
+✅AWS Disaster Recovery Architecture Network Components
+The AWS Disaster Recovery architecture is built on a foundation of secure and reliable network components:
+
+💥Amazon VPC (Virtual Private Cloud):provides isolated network environments
+
+💥Amazon Route 53:directs traffic to the appropriate location
+
+💥AWS Direct Connect or VPN: 
+provide secure connectivity between your primary and secondary environments.
+
+💥AWS Backup and Storage Gateway:provide data storage and replication capabilities.
+
+💥Load Balancers: distribute incoming traffic across multiple targets for optimal performance.
+
+💥AWS Backup and Storage Gateway: manage data backup, recovery, and replication.
+
+💥Compute Resources: host applications and services in your secondary location.
+
+💥Security Groups and Network ACLs: control lists control traffic to and from your resources, ensuring security.
