@@ -1,0 +1,173 @@
+-- docker
+--https://devopscube.com/build-docker-image/
+-- https://phoenixnap.com/kb/docker-run-command-with-examples --
+
+Installation:
+-- we need to install 3 components like containerd.io and docker-ce(docker community edition) and docker-ce-cli 
+
+containerd.io provides the container runtime interface, Docker CE includes the Docker daemon and client for managing containers, and Docker CE CLI is the command-line interface for interacting with 
+Docker components. All three components work together to enable the creation, management, and execution of Docker containers on a host system.
+
+BENEFITS:
+5 facts that you should know about Docker.
+
+1/ Portability:Docker packages your application and its environment into a single image, runnable on any machine with Docker installed.
+No more 'works on my machine' problems! 😉
+2/ Efficiency:Docker containers are lightweight and share system resources.This means you can run more applications on the same hardware.
+3/ Microservice Friendly:Docker is ideal for breaking down applications into smaller, independent components (microservices).
+This makes development and updates faster and more flexible.
+4/ Loves Developers:Docker streamlines development, making setup quick and eliminating environment conflicts between developers and production.
+5/ Scaling Made Easy:Docker works hand-in-hand with orchestration tools like Kubernetes, allowing you to manage and scale complex applications across multiple servers effortlessly.
+
+Docker handles the images of different operating systems (OS) on a server by utilizing containerization technology. 
+Containers are lightweight, isolated environments that run applications and services with their own filesystem, libraries, and 
+dependencies. Docker allows you to create and run containers based on different OS images on the same server.
+
+Here's how Docker handles different OS images and assigns tasks to specific OS:
+
+Host OS: The server where Docker is installed has a host OS, which is typically a mainstream operating system like Linux, Windows, or macOS. 
+The host OS provides the underlying infrastructure for Docker to run containers.
+Docker Images: Docker images are templates used to create containers. Each Docker image contains a complete filesystem with
+ the necessary dependencies to run a specific application or service. Docker images can be based on different OS distributions, such as Alpine 
+ Linux, Ubuntu, CentOS, or Windows Server.
+Container Isolation: Docker ensures isolation between containers and the host OS. Containers are isolated from each other and from the host OS, 
+allowing you to run applications or services based on different OS images simultaneously.
+Image Compatibility: Docker manages image compatibility through the use of container runtimes, such as Docker Engine. The container runtime 
+is responsible for executing the instructions within a Docker image and providing an environment that emulates the targeted OS. Docker Engine 
+translates system calls from the container to the host OS, enabling the containerized application to interact with the underlying system.
+Task Assignment: When you create containers from different OS images, you can assign specific tasks or services to each container based on
+ the requirements of the application or service. For example, you may have containers running on CentOS for one task and containers running 
+ on Alpine Linux for another task. Docker ensures that each container runs in isolation with its designated OS image and resources.
+In summary, Docker enables the creation and management of containers based on different OS images on a single server. Each container operates
+ with its own isolated environment, allowing you to assign specific tasks or services to containers based on the requirements of the application 
+ or service, regardless of the underlying host OS.
+ 
+ 
+ difference between host os and image os 
+ 
+ In Docker, the tasks handled by the host OS and the tasks handled by the image OS in a containerized environment are typically divided as follows:
+
+Host OS:
+
+Managing Container Resources: The host OS is responsible for managing system resources, such as CPU, memory, disk space, and network interfaces, 
+among others. It allocates resources to different containers and ensures their proper utilization.
+Container Runtime: The host OS runs the Docker daemon (Docker Engine), which is responsible for managing containers and executing their instructions. 
+It handles tasks like creating, starting, stopping, and monitoring containers.
+Networking: The host OS handles the networking aspects of containerized applications. It manages network interfaces, assigns IP addresses to containers,
+ and facilitates communication between containers and external networks.
+Storage Management: The host OS manages the storage resources used by containers. It handles file system access, disk I/O operations, and 
+storage drivers to provide persistent storage for containers.
+Security and Access Control: The host OS enforces security measures and access controls for the containers running on it. It ensures that
+ containers are isolated from each other and have restricted access to the host system resources.
+
+Image OS (Container OS):
+
+Application Execution: The image OS, which is based on a specific OS distribution, handles the execution of the application or service running inside
+ the container. It provides the necessary environment, libraries, and dependencies required to run the application.
+Filesystem Isolation: The image OS provides a separate filesystem for each container, isolating the container's files and directories from other 
+containers and the host system. This ensures that changes made inside a container do not affect other containers or the host OS.
+Process Isolation: The image OS ensures that processes running inside a container are isolated from other containers and the host system. 
+It manages the lifecycle of the processes, including starting, stopping, and monitoring them.
+Package Management: The image OS includes package management tools specific to the OS distribution. It allows the installation, update, and removal 
+of software packages within the container.
+Application Dependencies: The image OS provides the necessary software libraries and dependencies required by the application or service running 
+inside the container. These dependencies are included in the image, ensuring that the application has the required runtime environment.
+In summary, the host OS handles resource management, networking, storage, security, and container runtime, while the image OS (container OS) handles 
+the execution of the application, filesystem isolation, process isolation, package management, and application dependencies within the container.
+
+DOCKER STORAGE DRIVER and VOLUME
+--storage driver-- storage driver is is component of docker responsible for managing container writable layer. it determines how images and 
+conatiners are stored and how filesystems operation are handled. there are lot of storage drivers like overlay2 for linux , zfs..etc
+these drivers are responsible handling file systems inside containers. how container interact with images and writable layer.
+--volume --docker volume is a storage location outside container writable layer managed by docker. it is used for persisit data which 
+means if container stop or lost , the data will not lost.
+
+
+*-- find out differences between entrypoint and cmd command 
+ CMD:Provides the default command to run when the container starts. In this example, it runs python app.py. 
+You can override this command when running the container.
+ENTRYPOINT	Specifies the commands that will execute when the Docker container starts.
+ENTRYPOINT sets the process to run, while CMD supplies default arguments to that process.
+ENTRYPOINT ["/usr/bin/my-app"]
+CMD ["help"]
+
+--commands
+Dockerfile Instruction	Explanation
+FROM	To specify the base image that can be pulled from a container registry( Docker hub, GCR, Quay, ECR, etc.)
+RUN	Executes commands during the image build process.
+ENV	Sets environment variables inside the image. It will be available during build time as well as in a running container. If you want to set only build-time variables, use ARG instruction.
+COPY	Copies local files and directories to the image
+EXPOSE	Specifies the port to be exposed for the Docker container.
+ADD	It is a more feature-rich version of the COPY instruction. It also allows copying from the URL that is the source and tar file auto-extraction into the image. However, usage of COPY command is recommended over ADD. If you want to download remote files, use curl or get using RUN.
+WORKDIR	Sets the current working directory. You can reuse this instruction in a Dockerfile to set a different working directory. If you set WORKDIR, instructions like RUN, CMD, ADD, COPY, or ENTRYPOINT gets executed in that directory.
+VOLUME	It is used to create or mount the volume to the Docker container
+USER	Sets the user name and UID when running the container. You can use this instruction to set a non-root user of the container.
+LABEL	It is used to specify metadata information of Docker image
+ARG	Is used to set build-time variables with key and value. the ARG variables will not be available when the container is running. If you want to persist a variable on a running container, use ENV.
+SHELL	This instruction is used to set shell options and default shell for the RUN, CMD, and ENTRYPOINT instructions that follow it.
+CMD	It is used to execute a command in a running container. There can be only one CMD, if multiple CMDs then it only applies to the last one. It can be overridden from the Docker CLI.
+ENTRYPOINT	Specifies the commands that will execute when the Docker container starts. If you don’t specify any ENTRYPOINT, it defaults to /bin/sh -c. You can also override ENTRYPOINT using the --entrypoint flag using CLI. Please refer CMD vs ENTRYPOINT for more information.
+
+
+--Best Practices
+-always use dockerignorefile to ignore some of the unused files , which increase build perfomance 
+-always use trusted docker images 
+-always use less commands in dockerfile because each command will form a layer while building the image 
+-always use non root user for by defining user command in dockerfile 
+-always use env and expose commands at end 
+-keep the images small 
+-use multi-stage builds to create small and efficient images 
+
+
+--troubleshooting -- possible docker issues 
+- always try to run container using docker run container name , other wise it will assign automatically , which will cause several issues 
+- if local port is already used by other services, then we may get error , always check availbles port using netstat or ss command.
+-sometimes docker failed to downlaod images because server dont have interenet connection.
+
+-- Image commands 
+
+-- docker build -t nginx:5 . ( path to dockerfile)
+-- docker pull imagename:tagname 
+-- docker images 
+-- docker rmi imagename:tagname
+-- docker images prune -- remove all unsed images 
+-- docker save -o image.tar imagename:tagname -- convert image into tar 
+-- docker load -i image.tar -- load tar into image 
+-- docker image inspect imagename:tag -- inspecting image metadata 
+-- docker image history imagename:tagname -- displaying image layers 
+-- docker export -o output.tar containername -- export an image to tar file 
+--docker import -i output.tar imagename:tag -- importing image from tar file
+
+-- Container Commands 
+-- docker run -d -p 8080:80 (localport:containerport -map local port to contiainerport)--name container name image name
+--dcoker ps -- list all running containers 
+--dcoker stop containerid or conatinername
+-- docker start containerid or containername
+--docker rm contianername containerid
+*-- docker logs containername or id 
+*-- docker exec -it containername or id /bin/bash -- execute commadns in running container --This opens an interactive shell 
+(bash) inside the container
+
+-- Docker Networking
+1. Bridge Network:
+• The default network type for containers. Containers on the same bridge network can communicate with each other.Each container gets its own IP address within the bridge network.
+2. Host Network:
+• Containers share the host's network stack.Containers can directly bind to host ports.
+3. Overlay Network:
+• Used for connecting containers across multiple Docker hosts (in a swarm cluster).Provides network abstraction, allowing containers to communicate as if they are on the same host.
+Commonly used in Docker Swarm mode.
+4. Macvlan Network:
+• Allows containers to have their own MAC address, making them appear as physical devices on the network.Useful when containers need to be part of an existing network.
+5. User-Defined Bridge Network:
+• Custom bridge networks can be created by users.Containers on the same custom bridge network can communicate with each other.
+
+--network commands 
+-- docker network create mynetwork -- create custom bridge network
+-- docker run --network mynetwork --name containername  -d nginx  -- run container in a specific network 
+-- docker network inspect mynetwork 
+-- dcoker network connect mynetwork contianer -- connect contianer to a network/ same for disconnect 
+-- dcoker network ls -- to list all the networks 
+
+-- Docker Volumes
+-- Docker volumes are a way to persistently store and manage data used by Docker containers. Volumes provide a mechanism for sharing 
+data between containers, as well as persisting data beyond the lifecycle of a single container
