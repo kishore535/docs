@@ -1,0 +1,153 @@
+
+TNS:
+TNS (Transaction Network Services) provides a platform that helps businesses manage and secure payment transactions across various 
+channels like in-store, online, and mobile. They offer services like payment processing, fraud detection, tokenization, and secure 
+connections between payment devices and networks. This ensures that transactions are fast, reliable, and secure, helping businesses 
+accept payments smoothly from multiple sources.
+
+Finix:
+Finix is a company that focuses on providing infrastructure for payments, specifically for software companies. They offer a platform 
+that allows businesses to manage their own payments in-house, which includes handling transactions, managing payment processing, 
+and ensuring compliance with financial regulations. Finix's services help companies streamline their payment processes, reduce
+ reliance on third-party providers, and have more control over their financial operations.
+
+1.	Why Fulgent Genetics, what makes you want to work for us?
+
+
+The job description aligns well with my past experience and this is something that I want to be part of. There is a huge learning opportunity 
+for me in this role. I will be proud to contribute to its growth.
+
+2. Why h1 ?
+'m particularly interested in Collective Health for several reasons. First and foremost, I'm drawn to Collective Health's innovative 
+approach to transforming the healthcare experience. The company's commitment to improving healthcare through technology aligns with 
+my passion for working on complex, impactful projects. The Senior DevOps Engineer role excites me as it offers the opportunity to 
+apply my skills in automation, cloud infrastructure, and continuous integration to support a platform that’s reshaping the 
+healthcare industry. I’m eager to contribute to and grow with a company at the forefront of healthcare innovation.
+
+3.why do you want to change company?
+I'm looking to change company because I'm eager to take on new challenges and continue growing both personally and professionally.
+ While I've gained valuable experience and learned a lot in my current role, I believe it's time for me to explore opportunities that
+ align more closely with my long-term career goals.
+ 
+2.  Why should we hire you?
+
+With over 6 years of experience in cloud infrastructure, including AWS and Terraform, and a solid background in healthcare 
+compliance from my time at Verana Health, I bring the expertise needed to excel at Collective Health. My skills in CI/CD with 
+GitLab and Jenkins, along with hands-on experience in Docker and Kubernetes, make me well-equipped to support your innovative 
+healthcare solutions. I’m passionate about using technology to drive meaningful change and am excited about the opportunity to 
+contribute to your team
+Because the job description aligns well with my past experience  and  I feel I have the knowledge, skills and qualifications you’re looking for and  
+I want to learn new technologies eventually  increase my knowledge in this field at same time want to contribute to the organisation as well.
+I will be proud to contribute to its growth.There is a huge learning opportunity for me in this role. I believe it is a good oppurutnity to learn new
+ things from exp people.I will be getting a  platform to showcase my skills.
+and I believe this oppportunity will help me complete a major milestione in my roadmap to become a DevOps Lead or Infrasturcure head./ 
+Because job resposnbilities  I believe there is high chances that I can learn something new.it is a good oppurutnity to learn new things from exp 
+people.I will be getting a platform to showcase my skills.
+
+3. About work authorization or Visa sponsorship and start date 
+-- at present I am on H1B with I-140 approval , So you just need to tranfer the my h1b 
+
+4.can you tell me about your leadership qaulities...??
+according to me a leadship qaulities are 
+encouraging creativity 
+listening and commincating effectively 
+positive attitude
+trying new things
+when I was in IBM , our team partipated in 2 day hackathon event-named CallforCode.at that time my manager told me to lead the team . Initially 
+i have no idea ,how to lead the team but with some exp that i have gained during my personal projects , I initially gathered all people and 
+I conducted a brainstorming session , later we integrated all the key ideas into one and worked on the development face of the idea. Here i splitted 
+the work and assigned to each of them some people are happy but some people are not uhappy becuase they didnot get what they want. I motivated them 
+by saying from each thing , we learn some thing new. later , we integrated those modules . Its just 2 day leadership , 
+according to me a leadship qaulities are 
+encouraging creativity 
+listening and commincating effectively 
+positive attitude
+trying new things
+
+5. how do you handle conflict within team.
+
+--I handle conflict by focusing on open communication and collaboration. I start by actively listening to all perspectives to understand
+ the root of the issue. I then work to identify common goals and find a solution that addresses everyone’s concerns. In my experience,
+ maintaining a calm and professional demeanor, and being open to compromise, helps to resolve conflicts effectively and maintain
+ positive working relationships
+-- there were some situtations where I ahve one opinion and my teammate had diff opinion related to a solution. at that we kept 
+our point infromt he team and then team came up with a solution which 
+
+
+5 .What is your salary expectations?
+My salary requirements are flexible and are negotiable.I have been doing some research on market for DevOps,Cloud, Site reliability engineer roles.
+I am expecting 180k as targeted salary all including and yes its always negotiable.
+
+5.What are your weakness?
+“My greatest weakness is that I sometimes focus too much on the details of a project and spend too much time analyzing the finer points. 
+I’ve been striving to improve in this area by checking in with myself at regular intervals and giving myself a chance to re-focusing on the 
+bigger picture. That way I can still ensure quality without getting so caught up in the details that it affects my productivity or the team’s 
+ability to meet the deadline.”
+
+
+6 .Team conflict?
+In one of the project, some of tasks had a depedency on my teammates tasks, which he was constanlty submitting late  costing my productivuty.
+ So, I called him for a coffee, I asked him about it  and asked is he going through any personal problems or it was work load. he said  
+ he is  been working  two projects parallely, and I requested him to make dependency tasks as priority than other tasks and told him that 
+ If he needs any help I would be happpy to help him and hea was hapy that I talked to him and resolved it perosnally.
+ 
+
+
+7.	What's your strongest example of communication ability? What did you communicate?
+
+I communicated with my clients when I worked with IBM to find out the requirements of the project.we used to have weekly meetings and mothnly releases
+When we work with a client you know that there will be many situations in which we have to communicate with them. One of those situations is our 
+Project Demo. I was the one who gave the presentation and interacted with them for further improvements and all. We used to provide some of the 
+solutions to client by developing prototypes.I remebered one demo, where we used ml for one of the repository appliation similar to google
+instead searching by typing the things , we used ml, directly scanning the device code to get the documents related to the particular device
+
+8.Tell me about a time you made a mistake and what was the outcome?
+ This incident was during my training days at IBM  where i waas given assesment to collect syslogs, weblogs 
+ from servers and build a dashboard. At the endo of assessmnet, I figure out that network team and  I were on differentt page about end results.
+ Those were minor changes was able to correct them. That mistake had helped me understand how things can get worse with differnet perspectives and 
+ from then I  make sure that beofre starting a prohect/task, end user and I are  on the same page.
+
+9. Why do you want to pursue masters and how you got interest in devOps.
+When I was in my bachelors , i dont know which path to choose, so after that I got oppurtuinity to work as cloud engineer at Groupon,
+then I moved to IBM and worked as DevOps engineer. There I realized that I want to learn deep about the os concepts , cloud concepts and networking
+concepts and I want spend some time doing some projects which helps to advance my careers and I decide to go with masters, since this also provides 
+me international learning experinace and working experience as well and also learning and working with diff people with diff age , diff community,diff
+nationalities , diff traditions . I love working with them
+
+10. what are the challeges you faced and how did yout ackled those 
+
+11. which things you want to learn in the next job and what are those why 
+12. what made you to show isnterest in this company 
+
+--tell about a challengin situation you faced and how did you overcome?
+--S-when we are in midst of infra migration, moving our production environment from on prem to aws. migration involved mutliple services like
+ microservices, dbs, cicd pipelines . one of the biggest challenge was ensuring zero downtime of our critical applications. 
+A-my respositiblity was to design and develop migration startegy  and also work with different teams to address any issues that arose during the 
+process. this inovloved in detailed planning, setting up infra in aws and fallback plan if something goes wrong
+T- I started by conduction thorugh analysys of our current evn, identifying dependecies and documneting entire architecure. I worked with 
+applciation and db teams to create phased migration migration, which allowed us to move services gradually, starting with less critical components.
+We used tools like Terraform for infrastructure as code to replicate our environment in AWS, and Jenkins for continuous integration and deployment.
+To minimize downtime, we implemented a blue-green deployment strategy, where we set up identical environments in AWS and switched 
+traffic from the old environment to the new one in a controlled manner. We also set up detailed monitoring and logging using AWS 
+CloudWatch and ELK stack to catch any issues early.
+During the actual migration, we encountered some unexpected performance bottlenecks due to differences in the networking setup 
+between our on-premises data center and AWS. To address this, I worked with the networking team to reconfigure our VPC and 
+optimized our load balancers and auto-scaling groups to handle the increased traffic."
+R- The migration was completed successfully with no downtime and minimal disruption to our users. Post-migration, we saw a significant
+ improvement in application performance and scalability. Additionally, our infrastructure costs were reduced by 20%.
+
+
+interview strucute 
+-- Phil director -- ci/cd pipeline for company --
+-- 2 in devOps and one with app security,
+-- phil asked about -- why you did with lymda like writing the scripts to automate the emr or ecr , writing api gateways ,
+writing cloudformation things to automate aws , he asked about networking concepts like creating vpc , security groups 
+-- if you get an issue in networking then you are able trouble shoot -- ans: yea , i can check the inbound and outbound along with security groups 
+
+--what area you want to foucs on , what is the thing that if you get a hance to learn in free time -- i like working with teraform to automate things 
+i like working on kubernetes , i like this kuberentes will be next big thing in the industry 
+-- do you have any experince using ansible ..??
+--
+
+finix - 1 hiring manager and then 2 devops engineer rounds -domain exp , aws, kubernetes, apis 
+collective health -- kafka,aws,linux like like kernel , kubernetes,sql --hiring manager then 3hrs to 3 hrs 30 min onsite  ...etc.
